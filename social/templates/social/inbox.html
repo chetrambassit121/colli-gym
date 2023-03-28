@@ -1,0 +1,68 @@
+{% extends 'basetwo.html' %}
+{% comment %} {% load custom_tags %} {% endcomment %}
+{% block content %}
+
+<div class="fh5co-parallax largerbanner" style="background-image: url(/static/images/fitnesspic2.jpg);">
+    {% comment %} <div class="container">    {% endcomment %}
+        {% comment %} <div class="row"> {% endcomment %}
+			{% comment %} <div class="col-md-8 col-md-offset-2 col-sm-12 col-sm-offset-0 col-xs-12 col-xs-offset-0 text-center fh5co-table"> {% endcomment %}
+            {% comment %} <div class="fh5co-intro fh5co-table-cell animate-box"> {% endcomment %}
+    <section class="content-item" id="comments">
+        <div class="container">   
+        <div class="col-sm-8 col-md-offset-2">   
+            <h1 class="row justify-content-center">Your Inbox</h1>
+			<form method="GET" action="{% url 'create-thread' %}">
+				<button class="btn btn-light p-3" type="submit">Start a Conversation</button>
+			</form>
+            {% comment %} <h3 class="row justify-content-center">Share your fitness journey with others!</h3> {% endcomment %}
+			{% for thread in threads.all %}
+			<a href="{% url 'thread' thread.pk %}"><div class="row mb-3" style="background-color: rgb(48, 48, 48);">
+					<div class="col-md-12 p-5">
+						{% if thread.receiver == request.user %}
+							
+							<img class="round-circle post-img" height="100" width="100" src="{{ thread.user.profile.picture.url }}" />
+							<h3>{{ thread.user }}</h3>
+						{% else %}
+							<img class="round-circle post-img" height="100" width="100" src="{{ thread.receiver.profile.picture.url }}" />
+							<h3>{{ thread.receiver }}</h3>
+						{% endif %}
+					</div>
+				</div></a>
+			{% endfor %}
+		</div>
+		</div>
+	</section>
+</div>
+
+{% endblock %}
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 p-5">
+			<h3>Your Conversations</h3>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12 p-5">
+			<form method="GET" action="{% url 'create-thread' %}">
+				<button class="btn btn-light p-3" type="submit">Start a Conversation</button>
+			</form>
+		</div>
+	</div>
+
+	{% for thread in threads.all %}
+		<div class="row mb-3">
+			<div class="col-md-12 p-5 shadow">
+				{% if thread.receiver == request.user %}
+					<img class="round-circle post-img" height="45" width="45" src="{{ thread.user.profile.picture.url }}" />
+					<a href="{% url 'thread' thread.pk %}"><h5>@{{ thread.user }}</h5></a>
+				{% else %}
+					<img class="round-circle post-img" height="45" width="45" src="{{ thread.receiver.profile.picture.url }}" />
+					<a href="{% url 'thread' thread.pk %}"><h5>@{{ thread.receiver }}</h5></a>
+				{% endif %}
+			</div>
+		</div>
+	{% endfor %}
+</div>

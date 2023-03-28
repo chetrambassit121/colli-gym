@@ -1,0 +1,69 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('../fonts/icomoon.eot?gjtgs3');
+  src:  url('../fonts/icomoon.eot?gjtgs3#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?gjtgs3') format('truetype'),
+    url('../fonts/icomoon.woff?gjtgs3') format('woff'),
+    url('../fonts/icomoon.svg?gjtgs3#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-google-plus:before {
+  content: "\ea8b";
+}
+.icon-facebook:before {
+  content: "\ea90";
+}
+.icon-instagram:before {
+  content: "\ea92";
+}
+.icon-twitter:before {
+  content: "\ea96";
+}
+.icon-youtube:before {
+  content: "\ea9d";
+}
+.icon-chevron-down:before {
+  content: "\e900";
+}
+.icon-chevron-left:before {
+  content: "\e901";
+}
+.icon-chevron-right:before {
+  content: "\e902";
+}
+.icon-chevron-up:before {
+  content: "\e90b";
+}
+.icon-triangle-down:before {
+  content: "\e903";
+}
+.icon-triangle-left:before {
+  content: "\e904";
+}
+.icon-triangle-right:before {
+  content: "\e905";
+}
+.icon-triangle-up:before {
+  content: "\e906";
+}
+.icon-search2:before {
+  content: "\e036";
+}
+

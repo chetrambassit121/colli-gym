@@ -1,0 +1,30 @@
+OBJECTIVE: Performing custom SQL directly .. query is a request to the databse for data 
+
+access database directly
+- django.db.connection
+- connection.cursor()
+- cursor.execute(sql)
+- cursor.fetchone() or cursor.fetchall()
+
+
+
+
+
+
+
+
+
+
+
+
+
+python manage.py shell 
+
+>>> from social.models import Post
+>>> Post.objects.all()
+<QuerySet [<Post: Post object (12)>, <Post: Post object (11)>, 
+<Post: Post object (10)>, <Post: Post object (9)>, 
+<Post: Post object (8)>, <Post: Post object (7)>, 
+<Post: Post object (6)>, <Post: Post object (5)>, 
+<Post: Post object (4)>, <Post: Post object (3)>, 
+<Post: Post object (2)>, <Post: Post object (1)>]>

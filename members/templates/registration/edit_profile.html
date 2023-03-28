@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Edit User Settings{% endblock %}
+{% block content %}
+
+	<div class="fh5co-parallax" style="background-image: url(/static/images/fitnesspic15.jpg);">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2 col-sm-12 col-sm-offset-0 col-xs-12 col-xs-offset-0 text-center fh5co-table">
+					<div class="fh5co-intro fh5co-table-cell animate-box loginform" id="registerForm" data-branches-url="{% url 'ajax_load_citys' %}" novalidate>
+						<h1 class="text-center">Settings</h1>
+						<h4 class="text-center header-white">Edit your settings here!</h4>
+						<form method='POST'>
+							{% csrf_token %}
+							{% comment %} {{ form.as_p }} {% endcomment %}
+							<div class="col-md-6">
+								<div class="form-group">
+									{{ form.username }}
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									{{ form.email }}
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									{{ form.first_name }}
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									{{ form.last_name }}
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									{{ form.state }}
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									{{ form.city }}
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
+									<input type="submit" value="Update" class="btn btn-primary">
+								</div>
+							</div>
+							{% comment %} <p>{{ form.password }}</p> {% endcomment %}
+							<h4><a class="link" href="{% url 'change_password' request.user.pk %}">Change Password</a></h4>
+							<h6><a style='color: red !important;' href="{% url 'account_delete' request.user.pk %}">Delete Account</a></h6>
+							<small><a target="_blank" href="https://www.pexels.com/photo/woman-pushing-barbel-using-her-feet-136404/">Photo by Scott Webb</a></small>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div><!-- end: fh5co-parallax -->
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script>
+	    $("#id_state").change(function () {
+	      var url = $("#EditProfileForm").attr("data-branches-url");  
+	      var stateId = $(this).val();  
+
+	      $.ajax({                      
+	        url: url,                    
+	        data: {
+	          'state': stateId       
+	        },
+	        success: function (data) {  
+	          $("#id_city").html(data);  
+	        }
+	      });
+
+	    });
+  	</script>
+	
+{% endblock %}
+
+
+<div class="row mt-5">
+	<div class="col-md-5 col-sm-6">
+		<a href="{% url 'show_profile_page' object.pk %}" class="btn btn-light">Back To Profile</a>
+	</div>
+</div>
+<br/><br/>
+<div class="flexbox-container">
+	<div class="flexbox-item1 login-form">
+		<h1>Edit Settings</h1>
+		<div class="form-group" id="EditProfileForm" data-branches-url="{% url 'ajax_load_citys' %}" novalidate>
+			<form method='POST'>
+				{% csrf_token %}
+				{{ form.as_p }}
+				<button class="btn btn-secondary">Update Settings</button> 
+			</form>
+		</div>
+		<h6><a href="{% url 'account_delete' request.user.pk %}">Delete Account</a></h6>
+	</div>
+</div>
+

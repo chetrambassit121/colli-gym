@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Delete{% endblock %}
+{% block content %}
+
+
+<div class="fh5co-parallax" style="background-image: url(/static/images/fitnesspic16.jpg);">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2 col-sm-12 col-sm-offset-0 col-xs-12 col-xs-offset-0 text-center fh5co-table">
+				<div class="fh5co-intro fh5co-table-cell animate-box">
+					<h1 class="text-center">Don't Stop</h1>
+                    <h3 class="text-center header-white">Your Fitness Journey</h3>
+					<form method='POST'>
+						{% csrf_token %}
+                        <p>Are you sure you want to delete "{{ user }}"?</p>
+						<div class="col-md-12">
+							<div class="form-group">
+								<input type="submit" value="Delete" class="btn btn-danger">
+							</div>
+						</div>
+						<small><a target="_blank" href="https://www.pexels.com/photo/adult-architecture-athlete-boardwalk-221210/">Photo by Pixabay</a></small>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div><!-- end: fh5co-parallax -->
+
+
+
+{% endblock %}
+
+<div class="flexbox-container">
+	<div class="flexbox-item login-form">
+        <form method="post">{% csrf_token %}
+            <p>Are you sure you want to delete "{{ user }}"?</p>
+            <button type="submit" class="btn btn-danger">Confirm</button>
+        </form>
+    </div>
+</div>
+
+
+
+
+<div class="row-md-2">
+    <div class="form-group">
+        <input type="text" class="loginform" name="username" placeholder="Username">
+    </div>
+</div>
+<div class="row-md-2">
+    <div class="form-group">
+        <input type="password" class="loginform" name="password" placeholder="Password">
+    </div>
+</div>
+<div class="login-links">
+    <a href={% url 'register' %}><p class="link">Not a User? Register here!</p></a>
+    <a href={% url 'password_reset' %}><p class="link">Forgot username/password</p></a>
+</div>
+{% comment %} <div class="col-md-12">
+    <div class="form-group">
+        <textarea name="" class="form-control" id="" cols="30" rows="7" placeholder="Message"></textarea>
+    </div>
+</div> {% endcomment %}

@@ -1,0 +1,146 @@
+{% load static %}
+{% load custom_tags %}
+<div id="fh5co-header" class="">
+    <header id="fh5co-header-section">
+        <div class="container ">
+            <div class="nav-header">
+                <a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle"><i></i></a>
+                <h1 id="fh5co-logo">
+                    <a href="{% url 'home' %}">Coli<span>seum Gym</span></a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'show_profile_page' request.user.profile.pk %}"><img class="profile-image" height="35" width="35" src="{{ request.user.profile.picture.url }}"></a>
+                        <a href="{% url 'notifications' %}" style="background-color: blue !important;" class="badge badge-primary">{% show_notifications %}</a>
+                    {% endif %}
+                </h1>
+                <!-- START #fh5co-menu-wrap -->
+                <nav id="fh5co-menu-wrap" role="navigation">
+                    <ul class="sf-menu" id="fh5co-primary-menu">
+                        {% comment %} <li class="active">
+                            <a href="{% url 'index' %}">Home</a>
+                        </li> {% endcomment %}
+                        {% comment %} <li>
+                            <a href="classes" class="fh5co-sub-ddown">Classes</a>
+                            <ul class="fh5co-sub-menu">
+                                <li><a href="#">Fitness</a></li>
+                                <li><a href="#">Branding &amp; Identity</a></li>
+                                <li><a href="#">UI Animation</a></li>
+                                <li><a href="#">Copywriting</a></li>
+                                <li><a href="#">Photography</a></li> 
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="{% url 'schedule' %}">Schedule</a>
+                        </li> {% endcomment %}
+                        {% if user.is_authenticated %}
+                            <li>
+                                <a href="#" class="fh5co-sub-ddown">Explore</a>
+                                <ul class="fh5co-sub-menu">
+                                    <li><a href="{% url 'trainer' %}">Trainers</a></li>
+                                    <li><a href="{% url 'classes' %}">Classes</a></li>
+                                    <li><a href="{% url 'about' %}">About</a></li>
+                                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                                </ul>
+                            </li> 
+                            <li>
+                                <a href="#">Social</a>
+                                <ul class="fh5co-sub-menu">
+                                    {% comment %} <li><a href="#" class="notification hashtag">
+                                        <span class="notification-text">#HashTags</span>
+                                    </a></li> {% endcomment %}
+                                    <li><a href="{% url 'post-list' %}">Social-Feed</a></li>
+                                    <li><a href="{% url 'explore' %}">#HashTags</a></li>
+                                    <li><a href="{% url 'users_list' %}">User-List</a></li>
+                                    <li><a href="#">Contact</a></li>
+                                </ul>
+                            </li> 
+                            <li>
+                                <a href="#" class="fh5co-sub-ddown">Account</a>
+                                <ul class="fh5co-sub-menu">
+                                    <li><a href="{% url 'edit_profile' request.user.profile.pk %}">Settings</a></li>
+                                    <li><a href="{% url 'show_profile_page' request.user.profile.pk %}">Profile Page</a></li>
+                                    <li><a href="{% url 'edit_profile_page' request.user.profile.pk %}">Edit Profile</a></li>
+                                    {% comment %} <li><a href="#">Inbox</a></li> {% endcomment %}
+                                    <li><a href="{% url 'logout' %}">Logout</a></li> 
+                                </ul>
+                            </li> 
+                            <li><a href="{% url 'inbox' %}" class="notification inbox">
+                                <span class="notification-text">Inbox</span>
+                                {% comment %} <span class="badge">3</span> {% endcomment %}
+                            </a></li>
+                            
+                            <li class="search-container">
+                                <form method="GET" action="{% url 'profile-search' %}">
+                                    {% comment %} <input type="text" placeholder="Search User" name="search" class="search-form"> {% endcomment %}
+                                    <input type="text" class="search-form" placeholder="Search User" aria-label="Username" aria-describedby="basic-addon1" name="query" value="{{ request.GET.query }}">
+                                    <button type="submit"><i class="fa fa-search"></i></button>
+                                </form>
+                            </li>
+                           
+                            {% comment %} <li><a href="{% url 'show_profile_page' request.user.profile.pk %}"><img class="profile-image" height="35" width="35" src="{{ request.user.profile.picture.url }}"></a></li> {% endcomment %}
+
+                            {% comment %} <li class="dropdown">
+                                <button class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                <li><a href="#" class="user-settings">User Settings</a></li>   
+                                </button>
+                                <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton1">
+                                    <li><a class="dropdown-item" href="{% url 'edit_profile' request.user.profile.pk %}">Edit User Settings</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'edit_profile_page' request.user.profile.pk %}">Edit Profile Page</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'show_profile_page' request.user.profile.pk %}">Show Profile Page</a></li> 
+                                    <li><a class="dropdown-item" href="#">Edit User Settings</a></li>
+                                    <li><a class="dropdown-item" href="#">Edit Profile Page</a></li>
+                                    <li><a class="dropdown-item" href="#">Show Profile Page</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                                </ul>
+                            </li>        {% endcomment %}
+                        {% else %}
+                            <li><a href="{% url 'trainer' %}">Trainers</a></li>
+                            <li><a href="{% url 'classes' %}">Classes</a></li>
+                            <li><a href="{% url 'about' %}">About</a></li>
+                            <li><a href="{% url 'contact' %}">Contact</a></li>
+                            <li><a href="{% url 'login' %}">Login</a></li>
+                            <li><a href="{% url 'register' %}">Register</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+           
+        </div>
+    </header>		
+</div>
+
+
+{% comment %} <script>
+    const hamburger = document.querySelector('.hamburger');
+    const navLink = document.querySelector('.nav__link');
+
+    hamburger.addEventListener('click', () => {
+    navLink.classList.toggle('hide');
+    });
+</script> {% endcomment %}
+
+
+
+
+{% comment %} <div id="fh5co-header">
+    <header id="fh5co-header-section">
+        <div class="container">
+            <a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle"><i></i></a>
+            <h1 id="fh5co-logo-2"><a href="{% url 'index' %}">Power<span>Building</span>-Social</a></h1>
+            <h6><a href="{% url 'login' %}">login</a> or <a href="{% url 'register' %}">register</a></h6>  
+            <form class="" role="search">
+                <input class="" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </header>
+</div> {% endcomment %}
+
+
+
+
+{% comment %} {% if user.is_authenticated %}
+                            <li><a><form class="example" style="" method="GET" action="{% url 'profile-search' %}">
+                                <input type="text" placeholder="User Search" name="search2">
+                                <button type="submit"><i class="fa fa-search"></i></button>
+                            </form></a></li>
+                        {%endif%} {% endcomment %}

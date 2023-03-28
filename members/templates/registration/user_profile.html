@@ -1,0 +1,722 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+
+{% if request.user == profile.user %}
+<div class="fh5co-parallax smallerbanner" style="background-image: url(/static/images/fitnesspic14.jpg);">
+{% else %}
+<div class="fh5co-parallax smallerbanner" style="background-image: url(/static/images/fitnesspic12.jpg);">
+{% endif %}
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2 col-sm-12 col-sm-offset-0 col-xs-12 col-xs-offset-0 text-center fh5co-table smallerbanner">
+        <div class="fh5co-intro fh5co-table-cell animate-box smallerbanner">
+          {% if request.user == profile.user %}
+            <h1 class="text-center">Greeting's {{ request.user.username }}</h1>
+            <h3 class="text-center" style='color: white !important;'>Welcome to your profile page</h3>
+          {% else %}
+            <h1 class="text-center">Welcome to<br> {{ user.username }}'s <br> profile page</h1>
+          {% endif %}
+          <small><a target="_blank" href="https://www.pexels.com/photo/barbell-on-the-floor-1552252/">Photo by Leon Ardho</a></small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- end: fh5co-parallax -->
+<!-- end:fh5co-hero -->
+<div id="" class="">
+    <div class="container">
+        <div class="">
+            <div class="col-md-offset-2">
+              <div class="container mt-5 profile-page">
+    
+                <div class="row d-flex justify-content-center">
+                    
+                    <div class="col-md-7">
+                        
+                        <div class="card p-3 py-4">
+                            
+                            <div class="text-center">
+                              <img class="profile-page-image" src="{{ profile.picture.url }}">
+                            </div>
+                            
+                            <div class="text-center mt-3">
+                                <span class="bg-secondary p-1 px-4 rounded text-white"></span>
+                                <h4 class="mt-2 mb-0">{{ user.username }}</h4>
+                                <span>
+                                  {% if profile.first_name %}{{ profile.first_name }}{% endif %} 
+                                  {% if profile.last_name %}{{ profile.last_name }}{% endif %}<br>
+                                  {% if profile.location %}{{ profile.location }}{% endif %}<br>
+                                  {% if profile.birth_date %}D.O.B: {{ profile.birth_date }}{% endif %}
+                                </span>
+                                
+                                <div class="px-4 mt-1">
+                                  {% if profile.bio %}{{ profile.bio }}{% endif %}
+                                </div>
+                                
+                                <ul class="social-list">
+                                  {% if profile.website_url %}
+                                    <li><a target="_blank" class='profile-links' href="{{ profile.website_url }}"><i class="faa fa fa-dribbble"></i></a></li>
+                                  {% endif %}
+                                  {% if profile.facebook_url %}
+                                    <li><a target="_blank" class='profile-links' href="{{ profile.facebook_url }}"><i class="faa fa fa-facebook"></i></a></li>
+                                  {% endif %}
+                                  {% if profile.twitter_url %}
+                                    <li><a target="_blank" class='profile-links' href="{{ profile.twitter_url }}"><i class="faa fa fa-twitter"></i></a></li>
+                                  {% endif %}
+                                  {% if profile.instagram_url %}
+                                    <li><a target="_blank" class='profile-links' href="{{ profile.instagram_url }}"><i class="faa fa fa-instagram"></i></a></li>
+                                  {% endif %}
+                                   
+                                
+                                  
+
+                                    {% comment %} <li><i class="faa fa fa-dribbble"></i></li>
+                                    <li><i class="faa fa fa-instagram"></i></li>
+                                    <li><i class="faa fa fa-linkedin"></i></li>
+                                    <li><i class="faa fa fa-google"></i></li> {% endcomment %}
+                                </ul>
+                                
+                                
+                                <div class="buttons">
+
+                                  {% if user == request.user %}
+                                    <a class="" style="margin-top: 5px !important;" href="{% url 'list-followers' profile.pk %}" ><button class="btn btn-primary px-4 ms-3" style="background-color: #8E24AA !important; color: white !important;">Followers: {{ number_of_followers }}</button></a>
+                                  {% else %}
+                                  <a class="" style="margin-top: 5px !important;" href="{% url 'list-followers' profile.pk %}" ><button class="btn btn-primary px-4 ms-3" style="background-color: #8E24AA !important; color: white !important;">Followers: {{ number_of_followers }}</button></a>
+                                  <button class="btn btn-outline-primary px-4" style="margin-bottom: 5px;">Message</button>
+                                    {% if is_following %}
+                                      <form method="POST" action="{% url 'remove-follower' profile.pk %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-primary px-4 ms-3">Unfollow</button>
+                                      </form>
+                                    {% else %}
+                                      <form  method="POST" action="{% url 'add-follower' profile.pk %}">
+                                        {% csrf_token %}
+                                        <button  class="btn btn-primary px-4 ms-3" style="margin-bottom: 5px !important;">Follow</button>
+                                      </form>
+                                    {% endif %}
+                                  {% endif %}
+
+                                  {% comment %} <button class="btn btn-primary px-4 ms-3">Follow</button> {% endcomment %}
+                                </div>
+                                
+                                
+                            </div>
+                            
+                           
+                            
+                            
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="row animate-box">
+            {% comment %} <div class="col-md-10 col-md-offset-1 text-center">
+                <ul class="schedule">
+                    <li><a href="#" class="active" data-sched="sunday">Sunday</a></li>
+                    <li><a href="#" data-sched="monday">Monday</a></li>
+                    <li><a href="#" data-sched="tuesday">Tuesday</a></li>
+                    <li><a href="#" data-sched="wednesday">Wednesday</a></li>
+                    <li><a href="#" data-sched="thursday">Thursday</a></li>
+                    <li><a href="#" data-sched="monday">Monday</a></li>
+                    <li><a href="#" data-sched="saturday">Saturday</a></li>
+                </ul>
+            </div> {% endcomment %}
+            <div class="row text-center">
+
+                <div class="col-md-12 schedule-container">
+                    
+                    <div class="schedule-content active" data-day="sunday">
+                      {% if request.user == user %}
+                        <div class="col-md-3 col-sm-6">
+                            <div class="program program-schedule">
+                                <a href="{% url 'edit_profile' request.user.profile.pk %}"><svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="purple" class="bi bi-gear" viewBox="0 0 16 16">
+                                  <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
+                                  <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
+                                </svg><h3>Settings</h3></a>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="program program-schedule">
+                                <a href="{% url 'edit_profile_page' request.user.profile.pk %}"><svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="purple" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+                                  <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z"/>
+                                </svg>
+                                <h3>Edit Profile</h3></a>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                          <div class="program program-schedule">
+                            <a href="{% url 'show_user_posts' user.profile.pk %}"><svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="purple" class="bi bi-sticky" viewBox="0 0 16 16">
+                              <path d="M2.5 1A1.5 1.5 0 0 0 1 2.5v11A1.5 1.5 0 0 0 2.5 15h6.086a1.5 1.5 0 0 0 1.06-.44l4.915-4.914A1.5 1.5 0 0 0 15 8.586V2.5A1.5 1.5 0 0 0 13.5 1h-11zM2 2.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V8H9.5A1.5 1.5 0 0 0 8 9.5V14H2.5a.5.5 0 0 1-.5-.5v-11zm7 11.293V9.5a.5.5 0 0 1 .5-.5h4.293L9 13.793z"/>
+                            </svg>
+                            <h3>Your Posts</h3></a>
+                          </div>
+                      </div>
+                      <div class="col-md-3 col-sm-6">
+                          <div class="program program-schedule">
+                            <a href="{% url 'show_shared_profile_page' user.profile.pk %}"><svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="purple" class="bi bi-stickies" viewBox="0 0 16 16">
+                              <path d="M1.5 0A1.5 1.5 0 0 0 0 1.5V13a1 1 0 0 0 1 1V1.5a.5.5 0 0 1 .5-.5H14a1 1 0 0 0-1-1H1.5z"/>
+                              <path d="M3.5 2A1.5 1.5 0 0 0 2 3.5v11A1.5 1.5 0 0 0 3.5 16h6.086a1.5 1.5 0 0 0 1.06-.44l4.915-4.914A1.5 1.5 0 0 0 16 9.586V3.5A1.5 1.5 0 0 0 14.5 2h-11zM3 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V9h-4.5A1.5 1.5 0 0 0 9 10.5V15H3.5a.5.5 0 0 1-.5-.5v-11zm7 11.293V10.5a.5.5 0 0 1 .5-.5h4.293L10 14.793z"/>
+                            </svg>
+                            <h3>Your Shared Posts</h3></a>
+                          </div>
+                      </div>
+                      {% else %}
+                        <div class="col-md-6 col-sm-6">
+                            <div class="program program-schedule">
+                              <a href="{% url 'show_user_posts' user.profile.pk %}"><svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="purple" class="bi bi-stickies" viewBox="0 0 16 16">
+                                <path d="M1.5 0A1.5 1.5 0 0 0 0 1.5V13a1 1 0 0 0 1 1V1.5a.5.5 0 0 1 .5-.5H14a1 1 0 0 0-1-1H1.5z"/>
+                                <path d="M3.5 2A1.5 1.5 0 0 0 2 3.5v11A1.5 1.5 0 0 0 3.5 16h6.086a1.5 1.5 0 0 0 1.06-.44l4.915-4.914A1.5 1.5 0 0 0 16 9.586V3.5A1.5 1.5 0 0 0 14.5 2h-11zM3 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V9h-4.5A1.5 1.5 0 0 0 9 10.5V15H3.5a.5.5 0 0 1-.5-.5v-11zm7 11.293V10.5a.5.5 0 0 1 .5-.5h4.293L10 14.793z"/>
+                              </svg>
+                              <h3>{% if request.user is not user %}{{ user.username }} Posts {% else %} Your Posts {% endif %}</h3></a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="program program-schedule">
+                              <a href="{% url 'show_shared_profile_page' user.profile.pk %}"><svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="purple" class="bi bi-stickies" viewBox="0 0 16 16">
+                                <path d="M1.5 0A1.5 1.5 0 0 0 0 1.5V13a1 1 0 0 0 1 1V1.5a.5.5 0 0 1 .5-.5H14a1 1 0 0 0-1-1H1.5z"/>
+                                <path d="M3.5 2A1.5 1.5 0 0 0 2 3.5v11A1.5 1.5 0 0 0 3.5 16h6.086a1.5 1.5 0 0 0 1.06-.44l4.915-4.914A1.5 1.5 0 0 0 16 9.586V3.5A1.5 1.5 0 0 0 14.5 2h-11zM3 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V9h-4.5A1.5 1.5 0 0 0 9 10.5V15H3.5a.5.5 0 0 1-.5-.5v-11zm7 11.293V10.5a.5.5 0 0 1 .5-.5h4.293L10 14.793z"/>
+                              </svg>
+                              <h3>{% if request.user is not user %}{{ user.username }} Shared Posts {% else %} Your Shared Posts {% endif %}</h3></a>
+                            </div>
+                        </div>
+                      {% endif %}
+                    </div>
+                    {% comment %} <!-- END sched-content -->
+
+                    <div class="schedule-content" data-day="monday">
+                        <div class="col-md-3 col-sm-6">
+                            <div class="program program-schedule">
+                                <img src="/static/images/fit-yoga.svg" alt="">
+                                <small>06AM-7AM</small>
+                                <h3>Yoga Programs</h3>
+                                <span>James Smith</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="program program-schedule">
+                                <img src="/static/images/fit-dumbell.svg" alt="Cycling">
+                                <small>06AM-7AM</small>
+                                <h3>Body Building</h3>
+                                <span>John Doe</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="program program-schedule">
+                                <img src="/static/images/fit-boxing.svg" alt="Cycling">
+                                <small>06AM-7AM</small>
+                                <h3>Boxing Fitness</h3>
+                                <span>John Dose</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="program program-schedule">
+                                <img src="/static/images/fit-cycling.svg" alt="">
+                                <small>06AM-7AM</small>
+                                <h3>Cycling Program</h3>
+                                <span>Rita Doe</span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <!-- END sched-content -->
+
+                    <div class="schedule-content" data-day="tuesday">
+                        <div class="col-md-3 col-sm-6">
+                            <div class="program program-schedule">
+                                <img src="/static/images/fit-dumbell.svg" alt="Cycling">
+                                <small>06AM-7AM</small>
+                                <h3>Body Building</h3>
+                                <span>John Doe</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="program program-schedule">
+                                <img src="/static/images/fit-yoga.svg" alt="">
+                                <small>06AM-7AM</small>
+                                <h3>Yoga Programs</h3>
+                                <span>James Smith</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="program program-schedule">
+                                <img src="/static/images/fit-cycling.svg" alt="">
+                                <small>06AM-7AM</small>
+                                <h3>Cycling Program</h3>
+                                <span>Rita Doe</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="program program-schedule">
+                                <img src="/static/images/fit-boxing.svg" alt="Cycling">
+                                <small>06AM-7AM</small>
+                                <h3>Boxing Fitness</h3>
+                                <span>John Dose</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END sched-content -->
+
+                    <div class="schedule-content" data-day="wednesday">
+                        <div class="col-md-3 col-sm-6">
+                            <div class="program program-schedule">
+                                <img src="/static/images/fit-yoga.svg" alt="">
+                                <small>06AM-7AM</small>
+                                <h3>Yoga Programs</h3>
+                                <span>James Smith</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="program program-schedule">
+                                <img src="/static/images/fit-dumbell.svg" alt="Cycling">
+                                <small>06AM-7AM</small>
+                                <h3>Body Building</h3>
+                                <span>John Doe</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="program program-schedule">
+                                <img src="/static/images/fit-boxing.svg" alt="Cycling">
+                                <small>06AM-7AM</small>
+                                <h3>Boxing Fitness</h3>
+                                <span>John Dose</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="program program-schedule">
+                                <img src="/static/images/fit-cycling.svg" alt="">
+                                <small>06AM-7AM</small>
+                                <h3>Cycling Program</h3>
+                                <span>Rita Doe</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END sched-content -->
+
+                    <div class="schedule-content" data-day="thursday">
+                        <div class="col-md-3 col-sm-6">
+                            <div class="program program-schedule">
+                                <img src="/static/images/fit-dumbell.svg" alt="Cycling">
+                                <small>06AM-7AM</small>
+                                <h3>Body Building</h3>
+                                <span>John Doe</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="program program-schedule">
+                                <img src="/static/images/fit-yoga.svg" alt="">
+                                <small>06AM-7AM</small>
+                                <h3>Yoga Programs</h3>
+                                <span>James Smith</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="program program-schedule">
+                                <img src="/static/images/fit-cycling.svg" alt="">
+                                <small>06AM-7AM</small>
+                                <h3>Cycling Program</h3>
+                                <span>Rita Doe</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="program program-schedule">
+                                <img src="/static/images/fit-boxing.svg" alt="Cycling">
+                                <small>06AM-7AM</small>
+                                <h3>Boxing Fitness</h3>
+                                <span>John Dose</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END sched-content -->
+
+                    <div class="schedule-content" data-day="friday">
+                        <div class="col-md-3 col-sm-6">
+                            <div class="program program-schedule">
+                                <img src="/static/images/fit-yoga.svg" alt="">
+                                <small>06AM-7AM</small>
+                                <h3>Yoga Programs</h3>
+                                <span>James Smith</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="program program-schedule">
+                                <img src="/static/images/fit-dumbell.svg" alt="Cycling">
+                                <small>06AM-7AM</small>
+                                <h3>Body Building</h3>
+                                <span>John Doe</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="program program-schedule">
+                                <img src="/static/images/fit-boxing.svg" alt="Cycling">
+                                <small>06AM-7AM</small>
+                                <h3>Boxing Fitness</h3>
+                                <span>John Dose</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="program program-schedule">
+                                <img src="/static/images/fit-cycling.svg" alt="">
+                                <small>06AM-7AM</small>
+                                <h3>Cycling Program</h3>
+                                <span>Rita Doe</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END sched-content -->
+
+                    <div class="schedule-content" data-day="saturday">
+                        <div class="col-md-3 col-sm-6">
+                            <div class="program program-schedule">
+                                <img src="/static/images/fit-dumbell.svg" alt="Cycling">
+                                <small>06AM-7AM</small>
+                                <h3>Body Building</h3>
+                                <span>John Doe</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="program program-schedule">
+                                <img src="/static/images/fit-yoga.svg" alt="">
+                                <small>06AM-7AM</small>
+                                <h3>Yoga Programs</h3>
+                                <span>James Smith</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="program program-schedule">
+                                <img src="/static/images/fit-cycling.svg" alt="">
+                                <small>06AM-7AM</small>
+                                <h3>Cycling Program</h3>
+                                <span>Rita Doe</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="program program-schedule">
+                                <img src="/static/images/fit-boxing.svg" alt="Cycling">
+                                <small>06AM-7AM</small>
+                                <h3>Boxing Fitness</h3>
+                                <span>John Dose</span>
+                            </div>
+                        </div> {% endcomment %}
+                    </div>
+                    <!-- END sched-content -->
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+{% endblock %}
+
+
+  <div class="row mt-5">
+    <div class="col-md-3 col-sm-6">
+      <a href="{% url 'post-list' %}" class="btn btn-light">Social Feed</a>
+    </div>
+  </div>
+  <div class="row justify-content-center mt-5" >
+    <div class="col-md-8 col-sm-12 border px-5 pt-3">
+      <div class="text-center">
+        <h1 class="row justify-content-center mt-3">User Profile</h1> 
+        <h5>{{ profile }}</h5>  
+        <h6>
+          <a href="{% url 'list-followers' profile.pk %}" class="post-link">Followers: {{ number_of_followers }}</a>&nbsp;&nbsp; 
+          {% if request.user == user %}
+            <a href="{% url 'edit_profile_page' request.user.profile.pk %}">Edit Profile Page</a> &nbsp;&nbsp; 
+            <a href="{% url 'edit_profile' request.user.profile.pk %}">Edit User Settings</a>
+            <p>Date Joined: {{ user.date_joined }}</p>
+          {% endif %}
+        </h6>
+      </div>
+      <div class="text-center">
+        {% if profile.picture %}
+          <img src="{{ profile.picture.url }}" class="rounded-circle" width="100" height="100">
+        {% else %}
+          <img src="{% static 'powerbuilding/images/profile_pictures/default_pic.jpg' %}" class="rounded-circle" width="100" height="100">
+        {% endif %}
+      </div>
+        <div class="card-body">
+          <div class="text-center">
+            <h5 class="card-title">{% if profile.first_name %}{{ profile.first_name }}{% endif %} {% if profile.last_name %}{{ profile.last_name }}{% endif %} </h5>
+            <p class="small text-muted">
+              {% if profile.website_url %}
+                <a target="_blank" href="{{ profile.website_url }}">Website</a>  
+              {% endif %}
+              {% if profile.facebook_url %}
+                | <a target="_blank" href="{{ profile.facebook_url }}">Facebook</a> 
+              {% endif %}
+              {% if profile.twitter_url %} 
+                | <a target="_blank" href="{{ profile.twitter_url }}">Twitter</a> 
+              {% endif %}
+              {% if profile.instagram_url %} 
+                | <a target="_blank" href="{{ profile.instagram_url }}">Instagram</a> 
+              {% endif %}
+              {% if profile.pinterest_url %} 
+                | <a target="_blank" href="{{ profile.pinterest_url }}">Pinterest</a> 
+              {% endif %}
+              <br>
+              {% if profile.location %}
+              <p>Location: {{ profile.location }}</p>
+              {% endif %}
+
+              {% if profile.birth_date %}
+              <p>Birthday: {{ profile.birth_date }}</p>
+              {% endif %}
+
+              {% if user == request.user %}
+              {% else %}
+                {% if is_following %}
+                  <form method="POST" action="{% url 'remove-follower' profile.pk %}">
+                    {% csrf_token %}
+                    <button class="btn btn-outline-danger" type="submit">Unfollow</button>
+                  </form>
+                {% else %}
+                  <form method="POST" action="{% url 'add-follower' profile.pk %}">
+                    {% csrf_token %}
+                    <button class="btn btn-outline-success" type="submit">Follow</button>
+                  </form>
+                {% endif %}
+              {% endif %}
+            </p>  
+            <p class="card-text">{{ profile.bio }}</p>
+          </div>
+        </div>
+    </div>
+  </div>
+  <div class="row justify-content-center mt-3 mb-5"><div class="col-md-5 col-sm-12"><div class="flexbox-item-99"><div class="header-info2">
+    <h2>{{ user.username }} Posts</h2>
+    <h4><a href="{% url 'show_shared_profile_page' user.profile.pk %}">{{ user.username }} Shared Posts</a></h4>
+    <h5>Click on a Post to View Comments!</h5>
+  </div></div></div></div>
+  <div class="infinite-container">
+  {% for post in posts %}
+    <div class="infinite-item">
+      <div class="row justify-content-center mt-3">
+        <div class="col-md-5 col-sm-12 border-bottom position-relative">
+          {% if post.shared_user %}
+            <div>
+              <a href="{% url 'show_profile_page' post.shared_user.profile.pk %}">
+                  <img class="round-circle post-img" height="45" width="45" src="{{ post.shared_user.profile.picture.url }}" />
+              </a>
+              <p class="post-text">
+                  <a class="text-primary post-link" href="{% url 'show_profile_page' post.shared_user.profile.pk %}">@{{ post.shared_user }}</a> shared a post on {{ post.created_on }}
+              </p>
+            </div>
+          {% else %}
+            <div>
+              <a href="{% url 'show_profile_page' post.author.profile.pk %}">
+                  <img class="round-circle post-img" height="45" width="45" src="{{ post.author.profile.picture.url }}" />
+              </a>
+              <p class="post-text">
+                  <a class="text-primary post-link" href="{% url 'show_profile_page' post.author.profile.pk %}">@{{ post.author }}</a> {{ post.created_on }}
+              </p>
+            </div>
+          {% endif %}
+          {% if post.shared_body %}
+            <div class="position-relative mb-3 body">
+                <p>{{ post.shared_body }}</p>
+                <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
+            </div>
+            <div class="shared-post">
+              <a href="{% url 'show_profile_page' post.author.profile.pk %}">
+                  <img class="round-circle post-img" height="45" width="45" src="{{ post.author.profile.picture.url }}" />
+              </a>
+              <p class="post-text">
+                  <a class="text-primary post-link" href="{% url 'show_profile_page' post.author.profile.pk %}">@{{ post.author }}</a> {{ post.shared_on }}
+              </p>
+            </div>
+          {% endif %}
+          <div class="shared-post position-relative pt-3">
+            <div class="position-relative">
+              <div class="body">
+                <p>{{ post.body }}</p>
+              </div>
+              {% if post.image %}
+                <img src="{{ post.image.url }}" class="post-image"/>
+              {% endif %}
+              <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
+            </div>
+          </div>
+          <div class="d-flex flex-row">
+            <form method="POST" action="{% url 'profile-like' profile.pk post.id   %}" class="like-form" id="{{post.id}}">
+              {% csrf_token %}
+              {% if request.user not in post.likes.all %}
+                <input type="hidden"  name="post_id" value="{{ post.id }}">
+                <button class="remove-default-btn like-btn{{post.id}}" type="submit">
+                    <i class="far fa-thumbs-up like-icon{{post.id}}" ><span class="like_count{{post.id}}">{{ post.likes.all.count }}</span></i>
+                </button>
+              {% else %}
+                <input type="hidden" name="post_id" value="{{ post.id }}">
+                <button class="remove-default-btn like-btn{{post.id}}" type="submit">
+                    <i class="far fa-thumbs-up like-icon{{post.id}} btn-success" ><span class="like_count{{post.id}}">{{ post.likes.all.count }}</span></i>
+                </button>
+              {% endif %}
+            </form>
+            <form method="POST" action="{% url 'profile-dislike' profile.pk post.id  %}" class="dislike-form" id='{{post.id}}'>
+              {% csrf_token %}
+              {% if request.user not in post.dislikes.all %}
+                  <input type="hidden" name="post_id" value="{{ post.id }}">
+                  <button class="remove-default-btn dislike-btn{{post.id}}" type="submit" >
+                      <i class="far fa-thumbs-down dislike-icon{{post.id}}"> <span class="dislike_count{{post.id}}">{{ post.dislikes.all.count }}</span></i>
+                  </button>
+              {% else %}
+                  <input type="hidden" name="post_id" value="{{ post.id }}">
+                  <button class="remove-default-btn dislike-btn{{post.id}}" type="submit" >
+                      <i class="far fa-thumbs-down dislike-icon{{post.id}} btn-success"> <span class="dislike_count{{post.id}}">{{ post.dislikes.all.count }}</span></i>
+                  </button>
+              {% endif %}
+            </form>
+            <p>Comments: {{ comment.count }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+  <div class="row justify-content-center mt-3">
+    <div class="col-md-5 col-sm-12 position-relative">
+      {% if posts.has_previous %}
+        <a href="?page=1">&laquo First</a>
+        <a href="?page={{ posts.previous_page_number }}">Previous</a>
+      {% endif %}
+      Page {{ posts.number }} of {{ posts.paginator.num_pages }}
+      {% if posts.has_next %}
+        <a href="?page={{ posts.next_page_number }}">Next</a>
+        <a href="?page={{ posts.paginator.num_pages }}">Last &raquo</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.like-form').submit(function(e){
+      e.preventDefault();
+      const post_id=$(this).attr('id')
+      const likeText = $(`.like-btn${post_id}`).text()
+      const trim = $.trim(likeText)
+      const url=$(this).attr('action') 
+      let res;
+      const like = $(`.like_count${post_id}`).text()
+      $.ajax({
+        method:"POST",
+        url:url,
+        data:{
+          'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+          'post_id':post_id,
+        },
+        success:function(response){
+          if(response.liked===true){
+            $(`.like-icon${post_id}`).addClass('btn-success')
+          }else{
+            $(`.like-icon${post_id}`).removeClass('btn-success')
+          }
+          if(response.disliked===true){
+            $(`.dislike-icon${post_id}`).addClass("btn-success")
+          }else{
+            $(`.dislike-icon${post_id}`).removeClass("btn-success")
+          }
+          likes=$(`.like_count${post_id}`).text(response.likes_count)
+          parseInt(likes)
+          dislikes=$(`.dislike_count${post_id}`).text(response.dislikes_count)
+          parseInt(dislikes)
+        },
+        error:function(response){
+          console.log("Failed ", response)
+        }
+      })
+    });
+  });
+</script>
+
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.like-form').submit(function(e){
+      e.preventDefault();
+      const post_id=$(this).attr('id')
+      const likeText = $(`.like-btn${post_id}`).text()
+      const trim = $.trim(likeText)
+      const url=$(this).attr('action') 
+      let res;
+      const like = $(`.like_count${post_id}`).text()
+      $.ajax({
+        method:"POST",
+        url:url,
+        data:{
+          'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+          'post_id':post_id,
+        },
+        success:function(response){
+          if(response.liked===true){
+            $(`.like-icon${post_id}`).addClass('btn-success')
+          }else{
+            $(`.like-icon${post_id}`).removeClass('btn-success')
+          }
+          if(response.disliked===true){
+            $(`.dislike-icon${post_id}`).addClass("btn-success")
+          }else{
+            $(`.dislike-icon${post_id}`).removeClass("btn-success")
+          }
+          likes=$(`.like_count${post_id}`).text(response.likes_count)
+          parseInt(likes)
+          dislikes=$(`.dislike_count${post_id}`).text(response.dislikes_count)
+          parseInt(dislikes)
+        },
+        error:function(response){
+          console.log("Failed ", response)
+        }
+      })
+    });
+
+    $('.dislike-form').submit(function(e){
+      e.preventDefault();
+      const token=$('input[name=csrfmiddlewaretoken]').val();
+      const post_id = $(this).attr('id')
+      const dislikeText = $(`.dislike-btn${post_id}`).text()
+      const trim = $.trim(dislikeText)
+      const url =$(this).attr('action') 
+      let res;
+      const dislike = $(`.dislike_count${post_id}`).text()
+      const trimCount = parseInt(dislike)
+      $.ajax({
+        method:"POST",
+        url:url,
+        data:{
+          'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+          'post_id':post_id,
+        },
+        success:function(response){
+          if(response.disliked===true){
+            $(`.dislike-icon${post_id}`).addClass("btn-success")
+          }else{
+            $(`.dislike-icon${post_id}`).removeClass("btn-success")
+          }
+          if(response.liked===true){
+            $(`.like-icon${post_id}`).addClass('btn-success')
+          }else{
+            $(`.like-icon${post_id}`).removeClass('btn-success')
+          }
+          likes=$(`.like_count${post_id}`).text(response.likes_count)
+          parseInt(likes)
+          dislikes=$(`.dislike_count${post_id}`).text(response.dislikes_count)
+          parseInt(dislikes)
+        },
+        error:function(response){
+          console.log('failed', response)
+        }
+      }) 
+    });
+  });
+</script>
+

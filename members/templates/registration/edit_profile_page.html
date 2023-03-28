@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}Edit Profile{% endblock %}
+{% block content %}
+
+
+    <div class="fh5co-parallax largebanner " style="background-image: url(/static/images/fitnesspic3.jpg);">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2 col-sm-12 col-sm-offset-0 col-xs-12 col-xs-offset-0 text-center fh5co-table margintopsmall">
+                    <div class="fh5co-intro fh5co-table-cell animate-box loginform" novalidate>
+                        <h1 class="text-center">Edit Profile</h1>
+                        <h3 class="text-center header-white">Change your profile information here</h3>
+                        <h4 class="text-center header-white">Information from this form will be displayed on your <a class="link" href="{% url 'show_profile_page' request.user.profile.pk %}">Profile Page</a></h4>
+                        <form method='POST' enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div style="display: none !important;">{{ form | crispy }}</div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <small>Biography</small>
+                                    {{ form.bio }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <small>First Name</small>
+                                    {{ form.first_name }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <small>Last Name</small>
+                                    {{ form.last_name }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    Date of Birth
+                                    {{ form.birth_date }}
+                                </div>
+                            </div>
+                            {% comment %} <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form.birth_date }}
+                                </div>
+                            </div> {% endcomment %}
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <small>Location</small>
+                                    {{ form.location }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <small>Website URL</small>
+                                    {{ form.website_url }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <small>Facebook URL</small>
+                                    {{ form.facebook_url }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <small>Twitter URL</small>
+                                    {{ form.twitter_url }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <small>Instagram URL</small>
+                                    {{ form.instagram_url }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <small>Profile Image</small>
+                                    {{ form.picture }}
+                                </div>
+                            </div>
+                            
+                            {% comment %} <div class="col-md-12">
+                                <div class="form-group">
+                                    <textarea name="" class="form-control" id="" cols="30" rows="7" placeholder="Message"></textarea>
+                                </div>
+                            </div> {% endcomment %}
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input type="submit" value="Update" class="btn btn-primary">
+                                </div>
+                            </div>
+                            <small><a target="_blank" href="https://www.pexels.com/photo/young-athletes-preparing-for-running-in-training-hall-3764014/">Photo by Andrea Piacquadio</a></small>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- end: fh5co-parallax -->
+
+
+
+
+	 
+
+
+{% endblock %}
+<div class="container">
+
+    <div class="row mt-5">
+        <div class="col-md-5 col-sm-6">
+            <a href="{% url 'show_profile_page' object.pk %}" class="btn btn-light">Back To Profile</a>
+        </div>
+    </div>
+
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-5 col-sm-12 border-bottom">
+            <h5>Update Your Profile (all fields are optional to display)</h5>
+            <h6>This information is seperate from your User Settings</h6>
+        </div>
+    </div>
+
+    <div class="row justify-content-center mt-3 mb-5">
+        <div class="col-md-5 col-sm-12">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <div class="d-grid gap-2">
+                    <button class="btn btn-success mt-3">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-6">
+    <div class="form-group">
+        {{ form.username }}
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="form-group">
+        {{ form.email }}
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="form-group">
+        {{ form.first_name }}
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="form-group">
+        {{ form.last_name }}
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="form-group">
+        {{ form.state }}
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="form-group">
+        {{ form.city }}
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="form-group">
+        {{ form.password1 }}
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="form-group">
+        {{ form.password2 }}
+    </div>
+</div>

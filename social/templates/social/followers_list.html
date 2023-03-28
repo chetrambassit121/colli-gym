@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Login{% endblock %}
+{% block content %}
+
+<div class="fh5co-parallax" style="background-image: url(/static/images/fitnesspic18.jpg);">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2 col-sm-12 col-sm-offset-0 col-xs-12 col-xs-offset-0 text-center fh5co-table">
+				<div class="fh5co-intro fh5co-table-cell animate-box">
+                    {% if request.user == profile.user %}
+					<h1 class="text-center">Followers List</h1>
+                    {% else %}
+					<h1 class="text-center">{{ profile.user.username }}'s' <br> Followers List</h1>
+                    {% endif %}
+					<small><a target="_blank" href="https://www.pexels.com/photo/three-people-in-a-gym-1552245">Photo by Leon Ardho/</a></small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="fh5co-schedule-section" class="fh5co-lightgray-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="heading-section text-center animate-box">
+                    <h2>Followers List</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row animate-box">
+            {% comment %} <div class="col-md-10 col-md-offset-1 text-center">
+                <ul class="schedule">
+                    <li><a href="#" class="active" data-sched="sunday">Sunday</a></li>
+                    <li><a href="#" data-sched="monday">Monday</a></li>
+                    <li><a href="#" data-sched="tuesday">Tuesday</a></li>
+                    <li><a href="#" data-sched="wednesday">Wednesday</a></li>
+                    <li><a href="#" data-sched="thursday">Thursday</a></li>
+                    <li><a href="#" data-sched="monday">Monday</a></li>
+                    <li><a href="#" data-sched="saturday">Saturday</a></li>
+                </ul>
+            </div> {% endcomment %}
+            <div class="row text-center">
+                <div class="col-md-12 schedule-container">
+                    <div class="schedule-content active" data-day="sunday">
+						{% for follower in followers %}
+							<div class="col-md-3 col-sm-6">
+								<div class="program program-schedule">
+									<a href="{% url 'show_profile_page' follower.profile.pk %}">
+										<img class="round-circle user-img" src="{{ follower.profile.picture.url }}"/>
+									</a>
+									{% comment %} <small>06AM-7AM</small> {% endcomment %}
+									<h3>{{follower.username}}</h3>
+									{% comment %} <span>John Doe</span> {% endcomment %}
+								</div>
+							</div>
+						{% endfor %}
+                        {% comment %} <div class="col-md-3 col-sm-6">
+                            <div class="program program-schedule">
+                                <img src="/static/images/fit-yoga.svg" alt="">
+                                <small>06AM-7AM</small>
+                                <h3>Yoga Programs</h3>
+                                <span>James Smith</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="program program-schedule">
+                                <img src="/static/images/fit-cycling.svg" alt="">
+                                <small>06AM-7AM</small>
+                                <h3>Cycling Program</h3>
+                                <span>Rita Doe</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="program program-schedule">
+                                <img src="/static/images/fit-boxing.svg" alt="Cycling">
+                                <small>06AM-7AM</small>
+                                <h3>Boxing Fitness</h3>
+                                <span>John Dose</span>
+                            </div>
+                        </div> {% endcomment %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+                
+
+{% endblock %}
+
+
+
+
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-3 col-sm-6">
+            <a href="{% url 'show_profile_page' profile.pk %}" class="btn btn-light">Back to Profile</a>
+        </div>
+    </div>
+
+    <div class="row justify-content-center mt-3">
+    	<div class="col-md-5 col-sm-12">
+    		{% if profile.name %}
+    		<h3>Followers for {{ profile.name }}</h3>
+    		{% else %}
+    		<h3>Followers for @{{ profile.user.username }}</h3>
+    		{% endif %}
+            <h3>{{ number_of_followers }}</h3>
+    	</div>
+    </div>
+    
+    {% for follower in followers %}
+    <div class="row justify-content-center">
+    	<div class="col-md-5 col-sm-12 position-relative my-3">
+    		<a href="{% url 'show_profile_page' follower.profile.pk %}" class="post-link"><img class="rounded-circle post-img" height="60" width="60" src="{{ follower.profile.picture.url }}" /></a>
+    		<a href="{% url 'show_profile_page' follower.profile.pk %}" class="post-link"><h5 class="mt-3">@{{ follower.username }}</h5></a>
+    	</div>
+    </div>
+    {% endfor %}
+</div>
+

@@ -1,0 +1,1826 @@
+{% extends 'basetwo.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+
+
+
+<div class="fh5co-parallax largerbanner" style="background-image: url(/static/images/fitnesspic2.jpg);">
+    {% comment %} <div class="container">    {% endcomment %}
+        {% comment %} <div class="row"> {% endcomment %}
+			{% comment %} <div class="col-md-8 col-md-offset-2 col-sm-12 col-sm-offset-0 col-xs-12 col-xs-offset-0 text-center fh5co-table"> {% endcomment %}
+            {% comment %} <div class="fh5co-intro fh5co-table-cell animate-box"> {% endcomment %}
+    <section class="content-item" id="comments">
+        <div class="container">   
+        <div class="col-sm-8 col-md-offset-2">   
+            <h1 class="row justify-content-center">Public Feed</h1>
+            <h3 class="row justify-content-center">Share your fitness journey with others!</h3>
+           
+            <form method="POST" enctype="multipart/form-data">
+                {% comment %} <h3 class="pull-left">New Posts</h3> {% endcomment %}
+                {% comment %} <button type="submit" class="btn btn-normal pull-right">Submit</button> {% endcomment %}
+                <fieldset>
+                    <div class="row">
+                        <div class="col-sm-3 col-lg-2 hidden-xs">
+                            <a href="{% url 'show_profile_page' request.user.profile.pk %}"><img class="shared-image" src="{{ request.user.profile.picture.url }}"></a>
+                            {% comment %} <img class="img-responsive" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt=""> {% endcomment %}
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-9 col-lg-10">
+                            <form class="form-control" id="message" placeholder="Your message" >
+                                <div class="form-group">
+                                    {% csrf_token %}
+                                    {{ form | crispy }}
+                                    {{ video_form | crispy }}
+                                    {% comment %} <textarea name="msg" id=""msg cols="30" rows="5" class="form-control" style="background-color: black;"></textarea> {% endcomment %}
+                                    {% comment %} <h4 style="color: white;">Leave a post</h4>
+                                    <label for="message">Message</label>
+                                    <textarea name="msg" id=""msg cols="30" rows="5" class="form-control" style="background-color: black;"></textarea> {% endcomment %}
+                                </div>
+                                {% comment %} <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input type="text" name="name" id="fullname" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="text" name="email" id="email" class="form-control">
+                                </div> {% endcomment %}
+                                {% comment %} <div class="form-group">
+                                    <p class="text-secondary">If you have a <a href="#" class="alert-link">gravatar account</a> your address will be used to display your profile picture.</p>
+                                </div> {% endcomment %}
+                                {% comment %} <div class="form-inline">
+                                    <input type="checkbox" name="check" id="checkbx" class="mr-1">
+                                    <label for="subscribe">Subscribe me to the newsletter</label>
+                                </div> {% endcomment %}
+                                <div class="form-group">
+                                    {% comment %} <button id="post" class="btn">Post</button> {% endcomment %}
+                                    <button type="submit" id='btn' class="btn btn-success mt-3 post-button">Post</button>
+                                </div>
+                            </form>
+                            {% comment %} <textarea class="form-control" id="message" placeholder="Your message" required=""></textarea> {% endcomment %}
+                        </div>
+                    </div>  	
+                </fieldset>
+            </form>
+            <h3 class="row justify-content-center">Post count: {{ post_count }}</h3>
+            {% comment %} <h3>4 Comments</h3> {% endcomment %}
+            
+            <!-- COMMENT 1 - START -->
+            {% for post in posts %}
+                {% if post.shared_user %}
+                    
+                    <div class="media">
+                        <a class="pull-left" href="{% url 'show_profile_page' post.shared_user.profile.pk %}"> 
+                            <img src="{{ post.shared_user.profile.picture.url }}" alt="" class="shared-image">
+                            {% comment %} <small class="postauthor">{{ post.shared_user }}</small> {% endcomment %}
+                        </a>
+                        {% comment %} <a class="pull-left" href="#"><img class="media-object" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt=""></a> {% endcomment %}
+                        <div class="media-body">
+                            {% comment %} {% if post.body %} {% endcomment %}
+                            <h4 class="media-heading">{{ post.shared_user }} shared a post <i class="fa fa-calendar"></i> {{post.created_on}}
+                                {% if request.user == post.shared_user %}
+                                {% comment %} <a href="{% url 'post-edit' post.pk %}" style="color: green !important;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                </svg></a> {% endcomment %}
+
+                                <a href="{% url 'post-delete' post.pk %}" class="red"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+                                </svg></a>{% endif %}
+                            </h4>
+                            <p class="white">{{ post.shared_body }}</p>
+                            {% comment %} <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> {% endcomment %}
+                            <ul class="list-unstyled list-inline media-detail pull-left">
+                                {% comment %} <li><i class="fa fa-calendar"></i>{{post.created_on}}</li> {% endcomment %}
+                                {% comment %} <li class=""><a href="{% url 'post-detail' post.pk %}" class="">View Comments</a></li> {% endcomment %}
+                                <li class=""><button class="remove-default-btn reply-button pull-left"><a href="{% url 'post-detail' post.pk %}" class="">View Comments</a></button></li>
+
+
+                                {% comment %} <li><i class="fa fa-thumbs-up"></i>13</li> {% endcomment %}
+                            </ul>
+                            
+                            <ul class="list-unstyled list-inline media-detail pull-right">
+                                <li class="">
+                                    <form method="POST" action="{% url 'like' post.id %}" class="like-form" id="{{post.id}}">
+                                        {% csrf_token %}
+                                        {% if user not in post.likes.all %}
+                                            <input type="hidden"  name="post_id" value="{{ post.id }}">
+                                            <button class=" thumbs-btn like-btn{{post.id}}" type="submit">
+                                                <i class="fa fa-thumbs-up thumbs like-icon{{post.id}}" ><span class="like_count{{post.id}}">{{ post.likes.all.count }}</span></i>
+                                            </button>
+                                        {% else %}
+                                            <input type="hidden" name="post_id" value="{{ post.id }}">
+                                            <button class=" thumbs-btn thumbs-fillgreen like-btn{{post.id}}" type="submit">
+                                                <i class="fa fa-thumbs-up thumbs like-icon{{post.id}}"><span class="like_count{{post.id}}">{{ post.likes.all.count }}</span></i>
+                                            </button>
+                                        {% endif %}
+                                    </form>
+                                </li>
+                                <li class="">
+                                    <form method="POST" action="{% url 'dislike' post.id %}" class="dislike-form thumb-buttons" id='{{post.id}}'>
+                                        {% csrf_token %}
+                                        {% if user not in post.dislikes.all %}
+                                            <input type="hidden" name="post_id" value="{{ post.id }}">
+                                            <button class="thumbs-btn dislike-btn{{post.id}}" type="submit" >
+                                                <i class="fa fa-thumbs-down thumbs dislike-icon{{post.id}}" > <span class="dislike_count{{post.id}}">{{ post.dislikes.all.count }}</span></i>
+                                            </button>
+                                        {% else %}
+                                            <input type="hidden" name="post_id" value="{{ post.id }}">
+                                            <button class=" thumbs-btn thumbs-fillred dislike-btn{{post.id}}" type="submit" >
+                                                <i class="fa fa-thumbs-down thumbs dislike-icon{{post.id}}" > <span class="dislike_count{{post.id}}">{{ post.dislikes.all.count }}</span></i>
+                                            </button>
+                                        {% endif %}
+                                    </form>
+                                </li>
+                            </ul>
+                            
+                        {% comment %} {% endif %} {% endcomment %}
+                        </div>
+                    </div>
+                    <div class="media sharedpost " style="border-top: none !important;">
+                        <a href="{% url 'show_profile_page' post.author.profile.pk %}"> 
+                            <img src="{{ post.author.profile.picture.url }}" alt="" class="shared-image" style="margin: 8px;">
+                        </a>
+                        <div class="media-body sharedpostbody">
+                            {% comment %} {% if post.body %} {% endcomment %}
+                            
+                            <h4 class="media-heading">{{ post.author }}</h4>
+                            <p class="white">{{ post.body }}</p>
+                            {% if post.image %}
+                                <div class="ajax_image" style="">
+                                    <img src="{{ post.image.url }}" class="post-image"/>
+                                </div>
+                            {% endif %}
+                            {% if post.video %}
+                                <video class="embed-responsive embed-responsive-16by9" controls="controls" class="post-image">
+                                    <source src="{{post.video.url}}" type="video/mp4" />
+                                </video>
+                            {% endif %}
+                            {% comment %} <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> {% endcomment %}
+                            <ul class="list-unstyled list-inline media-detail pull-left">
+                                <li><i class="fa fa-calendar"></i>{{post.shared_on}}</li>
+                                {% comment %} <li><i class="fa fa-thumbs-up"></i>13</li> {% endcomment %}
+                            </ul>
+                            <ul class="list-unstyled list-inline media-detail pull-right">
+                            </ul>
+                            {% comment %} {% endif %} {% endcomment %}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="media">
+                    
+                        <a class="pull-left" href="{% url 'show_profile_page' post.author.profile.pk %}"> 
+                            <img src="{{ post.author.profile.picture.url }}" alt="" class="media-object shared-image">
+                            {% comment %} <small class="postauthor">{{ post.shared_user }}</small> {% endcomment %}
+                        </a>
+                        
+                        <div class="media-body">
+                            {% comment %} {% if post.body %} {% endcomment %}
+                                
+                                <h4 class="media-heading">{{ post.author }} created a post <i class="fa fa-calendar"></i> {{ post.created_on }}  {% if request.user == post.author %}
+                                <a href="{% url 'post-edit' post.pk %}" style="color: green !important;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                </svg></a>
+
+                                <a href="{% url 'post-delete' post.pk %}" class="red"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+                                </svg></a>{% endif %}</h4>
+                            <p class="white">{{ post.body }}</p>
+                            {% if post.image %}
+                                <div class="ajax_image" style="">
+                                    <img src="{{ post.image.url }}" class="post-image"/>
+                                </div>
+                            {% endif %}
+                            {% if post.video %}
+                                <video class="embed-responsive embed-responsive-16by9" controls="controls" class="post-image">
+                                    <source src="{{post.video.url}}" type="video/mp4" />
+                                </video>
+                            {% endif %}
+                            
+                            {% comment %} <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> {% endcomment %}
+                            <ul class="list-unstyled list-inline media-detail pull-left">
+                                {% comment %} <li><i class="fa fa-calendar"></i>{{ post.created_on }}</li> {% endcomment %}
+                                <li class=""><button class="remove-default-btn reply-button"><a href="{% url 'post-detail' post.pk %}" class="">View Comments</a></button></li>
+                                {% comment %} <li><i class="fa fa-thumbs-up"></i>13</li> {% endcomment %}
+                            </ul>
+                            <ul class="list-unstyled list-inline media-detail pull-right">
+                                
+                                {% comment %} <li> <button class="remove-default-btn reply-button" onclick="myFunction()">Share</button> </li> {% endcomment %}
+                                <li class="">
+                                    <form method="POST" action="{% url 'like' post.id %}" class="like-form" id="{{post.id}}">
+                                        {% csrf_token %}
+                                        {% if user not in post.likes.all %}
+                                            <input type="hidden"  name="post_id" value="{{ post.id }}">
+                                            <button class=" thumbs-btn like-btn{{post.id}}" type="submit">
+                                                <i class="fa fa-thumbs-up thumbs like-icon{{post.id}}" ><span class="like_count{{post.id}}">{{ post.likes.all.count }}</span></i>
+                                            </button>
+                                        {% else %}
+                                            <input type="hidden" name="post_id" value="{{ post.id }}">
+                                            <button class=" thumbs-btn thumbs-fillgreen like-btn{{post.id}}" type="submit">
+                                                <i class="fa fa-thumbs-up thumbs like-icon{{post.id}}"><span class="like_count{{post.id}}">{{ post.likes.all.count }}</span></i>
+                                            </button>
+                                        {% endif %}
+                                    </form>
+                                </li>
+                                <li class="">
+                                    <form method="POST" action="{% url 'dislike' post.id %}" class="dislike-form thumb-buttons" id='{{post.id}}'>
+                                        {% csrf_token %}
+                                        {% if user not in post.dislikes.all %}
+                                            <input type="hidden" name="post_id" value="{{ post.id }}">
+                                            <button class="thumbs-btn dislike-btn{{post.id}}" type="submit" >
+                                                <i class="fa fa-thumbs-down thumbs dislike-icon{{post.id}}" > <span class="dislike_count{{post.id}}">{{ post.dislikes.all.count }}</span></i>
+                                            </button>
+                                        {% else %}
+                                            <input type="hidden" name="post_id" value="{{ post.id }}">
+                                            <button class=" thumbs-btn thumbs-fillred dislike-btn{{post.id}}" type="submit" >
+                                                <i class="fa fa-thumbs-down thumbs dislike-icon{{post.id}}" > <span class="dislike_count{{post.id}}">{{ post.dislikes.all.count }}</span></i>
+                                            </button>
+                                        {% endif %}
+                                    </form>
+                                </li>
+                            </ul>
+                            <div id="myDIV" class="">
+                                <form method="POST" action="{% url 'share-post' post.pk %}" class="share-form" style="margin-top: 10px;" id="{{ post.pk }}" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    {{ shareform | crispy }}
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-success mt-3">Share</button>
+                                    </div>
+                                </form>
+                            </div>
+                            {% comment %} {% endif %} {% endcomment %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            
+        </div>
+        </div>
+        <div class="row justify-content-center mt-3 page ">
+            <div class="col-md-5 col-sm-12 position-relative">
+                <p style="color: white !important">Page {{ posts.number }} of {{ posts.paginator.num_pages }}</p>
+                
+                {% if posts.has_previous %}
+                <div class="d-flex flex-row">
+                <p><a href="?page=1">&laquo First</a></p>&nbsp;&nbsp;&nbsp;&nbsp;
+                <p><a href="?page={{ posts.previous_page_number }}">Previous</a></p>
+                </div>
+                {% endif %}
+    
+                {% if posts.has_next %}
+                <div class="d-flex flex-row">
+                <p><a href="?page={{ posts.next_page_number }}">Next</a></p> &nbsp;&nbsp;&nbsp;&nbsp;
+                <p><a href="?page={{ posts.paginator.num_pages }}">Last &raquo</a></p>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+        
+    </section>
+            
+            {% comment %} </div> {% endcomment %}
+            {% comment %} </div> {% endcomment %}
+        {% comment %} </div> {% endcomment %}
+    {% comment %} </div> {% endcomment %}
+</div>
+<script src="/static/js/jquery.waypoints.min.js"></script>
+{% comment %} <script src="/static/js/jquery.waypoints.min.js"></script> {% endcomment %}
+<script src="/static/js/infinite.min.js"></script>
+    <script>
+        
+        var infinite = new Waypoint.Infinite({
+            element: $('.infinite-container')[0],
+
+            offset: 'bottom-in-view',
+
+            onBeforePageLoad: function () {
+                $('.loading').show();
+            },
+            onAfterPageLoad: function () {
+                $('.loading').hide();
+            }
+
+        });
+        
+    </script>
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="/static/js/jquery.hashtags.js"></script>
+<script src="/static/js/jquery.autosize.js"></script>
+{% comment %} <script src="js/jquery.hashtags.js"></script> {% endcomment %}
+<script>
+    $(document).ready(function() {
+        $("form").hashtags();
+    });
+</script>
+
+<script>
+    function myFunction() {
+      var x = document.getElementById("myDIV");
+      if (x.classList.contains('d-none')) {
+        x.classList.remove('d-none');
+      } else {
+        x.classList.add('d-none')
+      }
+    }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+         
+        $('.like-form').submit(function(e){
+            e.preventDefault();
+            const post_id=$(this).attr('id')
+            const likeText = $(`.like-btn${post_id}`).text()
+            const trim = $.trim(likeText)
+            const url=$(this).attr('action') 
+            let res;
+            const like = $(`.like_count${post_id}`).text()
+            $.ajax({
+                method:"POST",
+                url:url,
+                data:{
+                    'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+                    'post_id':post_id,
+                },
+                success:function(response){
+                    if(response.liked===true){
+                        $(`.like-icon${post_id}`).addClass('thumbs-fillgreen')
+                    }else{
+                        $(`.like-icon${post_id}`).removeClass('thumbs-fillgreen')
+                    }
+                    if(response.liked===true){
+                        $(`.like-btn${post_id}`).addClass('thumbs-fillgreen')
+                    }else{
+                        $(`.like-btn${post_id}`).removeClass('thumbs-fillgreen')
+                    }
+                    if(response.disliked===true){
+                        $(`.dislike-icon${post_id}`).addClass("thumbs-fillred")
+                    }else{
+                        $(`.dislike-icon${post_id}`).removeClass("thumbs-fillred")
+                    }
+                    if(response.disliked===true){
+                        $(`.dislike-btn${post_id}`).addClass("thumbs-fillred")
+                    }else{
+                        $(`.dislike-btn${post_id}`).removeClass("thumbs-fillred")
+                    }
+                    likes=$(`.like_count${post_id}`).text(response.likes_count)
+                    parseInt(likes)
+                    dislikes=$(`.dislike_count${post_id}`).text(response.dislikes_count)
+                    parseInt(dislikes)
+                },
+                error:function(response){
+                    console.log("Failed ", response)
+                }
+            })
+        });
+
+
+        $('.dislike-form').submit(function(e){
+            e.preventDefault();  
+            const post_id = $(this).attr('id')
+            const dislikeText = $(`.dislike-btn${post_id}`).text()
+            const trim = $.trim(dislikeText)
+            const url =$(this).attr('action') 
+            let res;
+            const dislike = $(`.dislike_count${post_id}`).text()
+            
+            $.ajax({
+                method:"POST",
+                url:url,
+                data:{
+                    'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+                    'post_id':post_id,
+                },
+                success:function(response){
+                    if(response.disliked===true){
+                      $(`.dislike-icon${post_id}`).addClass("thumbs-fillred")
+                    }else{
+                      $(`.dislike-icon${post_id}`).removeClass("thumbs-fillred")
+                    }
+                    if(response.disliked===true){
+                        $(`.dislike-btn${post_id}`).addClass("thumbs-fillred")
+                      }else{
+                        $(`.dislike-btn${post_id}`).removeClass("thumbs-fillred")
+                    }
+                    if(response.liked===true){
+                      $(`.like-icon${post_id}`).addClass('thumbs-fillgreen')
+                    }else{
+                      $(`.like-icon${post_id}`).removeClass('thumbs-fillgreen')
+                    }
+                    if(response.liked===true){
+                        $(`.like-btn${post_id}`).addClass('thumbs-fillgreen')
+                      }else{
+                        $(`.like-btn${post_id}`).removeClass('thumbs-fillgreen')
+                    }
+                    likes=$(`.like_count${post_id}`).text(response.likes_count)
+                    parseInt(likes)
+                    dislikes=$(`.dislike_count${post_id}`).text(response.dislikes_count)
+                    parseInt(dislikes)
+                },
+                error:function(response){
+                    console.log('failed', response)
+                }
+            }) 
+        });
+
+    });
+</script>
+
+    
+
+{% endblock %}
+
+
+
+
+
+
+
+<div class="media">
+    <a class="pull-left" href="#"><img class="media-object" src="https://bootdey.com/img/Content/avatar/avatar2.png" alt=""></a>
+    <div class="media-body">
+        <h4 class="media-heading">John Doe</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <ul class="list-unstyled list-inline media-detail pull-left">
+            <li><i class="fa fa-calendar"></i>27/02/2014</li>
+            <li><i class="fa fa-thumbs-up"></i>13</li>
+        </ul>
+        <ul class="list-unstyled list-inline media-detail pull-right">
+            <li class=""><a href="">Like</a></li>
+            <li class=""><a href="">Reply</a></li>
+        </ul>
+    </div>
+</div>
+<!-- COMMENT 2 - END -->
+
+<!-- COMMENT 3 - START -->
+<div class="media">
+    <a class="pull-left" href="#"><img class="media-object" src="https://bootdey.com/img/Content/avatar/avatar3.png" alt=""></a>
+    <div class="media-body">
+        <h4 class="media-heading">John Doe</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <ul class="list-unstyled list-inline media-detail pull-left">
+            <li><i class="fa fa-calendar"></i>27/02/2014</li>
+            <li><i class="fa fa-thumbs-up"></i>13</li>
+        </ul>
+        <ul class="list-unstyled list-inline media-detail pull-right">
+            <li class=""><a href="">Like</a></li>
+            <li class=""><a href="">Reply</a></li>
+        </ul>
+    </div>
+</div>
+<!-- COMMENT 3 - END -->
+
+<!-- COMMENT 4 - START -->
+<div class="media">
+    <a class="pull-left" href="#"><img class="media-object" src="https://bootdey.com/img/Content/avatar/avatar4.png" alt=""></a>
+    <div class="media-body">
+        <h4 class="media-heading">John Doe</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <ul class="list-unstyled list-inline media-detail pull-left">
+            <li><i class="fa fa-calendar"></i>27/02/2014</li>
+            <li><i class="fa fa-thumbs-up"></i>13</li>
+        </ul>
+        <ul class="list-unstyled list-inline media-detail pull-right">
+            <li class=""><a href="">Like</a></li>
+            <li class=""><a href="">Reply</a></li>
+        </ul>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} <div class="overlay"></div> {% endcomment %}
+<div class="container">
+    <div class="row margintop">
+        <div class="col-lg-4 col-md-5 col-sm-4 offset-md-1 offset-sm-1 col-12 mt-4 ">
+            <form method="POST" id="algin-form" class="greenbackground " enctype="multipart/form-data">
+                <div class="form-group">
+                    {% csrf_token %}
+                    {{ form | crispy }}
+                    {{ video_form | crispy }}
+                    {% comment %} <textarea name="msg" id=""msg cols="30" rows="5" class="form-control" style="background-color: black;"></textarea> {% endcomment %}
+                    {% comment %} <h4 style="color: white;">Leave a post</h4>
+                    <label for="message">Message</label>
+                    <textarea name="msg" id=""msg cols="30" rows="5" class="form-control" style="background-color: black;"></textarea> {% endcomment %}
+                </div>
+                {% comment %} <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" id="fullname" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" name="email" id="email" class="form-control">
+                </div> {% endcomment %}
+                {% comment %} <div class="form-group">
+                    <p class="text-secondary">If you have a <a href="#" class="alert-link">gravatar account</a> your address will be used to display your profile picture.</p>
+                </div> {% endcomment %}
+                <div class="form-inline">
+                    <input type="checkbox" name="check" id="checkbx" class="mr-1">
+                    <label for="subscribe">Subscribe me to the newsletter</label>
+                </div>
+                <div class="form-group">
+                    <button id="post" class="btn">Post</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-5 col-md-6 col-12 pb-4 postlist">
+            <h1 class="">Public Posts</h1>
+            {% for post in posts %}
+                <div class="comment mt-4 text-justify float-left">
+                    {% if post.shared_user %}
+                    {% comment %} <div class="d-flex"> {% endcomment %}
+                        <a href="{% url 'show_profile_page' post.shared_user.profile.pk %}"> 
+                            <img src="{{ post.shared_user.profile.picture.url }}" alt="" class="rounded-circle" width="40" height="40">
+                            <small class="postauthor">{{ post.shared_user }}</small>
+                        </a>
+                        <p class="createdon">Shared a post on: {{ post.created_on }}</p>
+                    
+                    {% comment %} </div> {% endcomment %}
+                    {% else %}
+                        
+                        <a href="{% url 'show_profile_page' post.author.profile.pk %}"> 
+                            <img src="{{ post.author.profile.picture.url }}" alt="" class="rounded-circle" width="40" height="40">
+                            <small class="postauthor">{{ post.author }}</small>
+                        </a>
+                        <p class="createdon">Posted on: {{ post.created_on }}</p>
+                    {% endif %}
+                    {% comment %} <small class="postauthor">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </small> {% endcomment %}
+                    {% comment %} </div> {% endcomment %}
+                    {% comment %} <p class="createdon">{{ post.created_on }}</p> {% endcomment %}
+                    {% comment %} <hr width="425" style="color: white;"> {% endcomment %}
+                    {% if post.shared_body %}
+                        <p>{{ post.shared_body }}</p>
+                        <div class="sharedpost">
+                            <a href="{% url 'show_profile_page' post.author.profile.pk %}"> 
+                                <img src="{{ post.author.profile.picture.url }}" alt="" class="rounded-circle" width="40" height="40">
+                                <small class="postauthor">{{ post.author }}</small>
+                            </a>
+                            <p class="createdon">{{ post.shared_on }}</p>
+                            <p>{{ post.body }}</p>
+                            {% if post.image %}
+                            <div class="ajax_image" style="padding-bottom: 15px !important;">
+                                <img src="{{ post.image.url }}" class="" height="300" width="275"/>
+                            </div>
+                            {% endif %}
+                            {% if post.video %}
+                                <video class="embed-responsive embed-responsive-16by9" controls="controls" height="300" width="275" style="padding-bottom: 15px !important;">
+                                    <source src="{{post.video.url}}" type="video/mp4" />
+                                </video>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <p>{{ post.body }}</p>
+                        {% if post.image %}
+                        <div class="ajax_image" style="padding-bottom: 15px !important;">
+                            <img src="{{ post.image.url }}" class="" height="300" width="275"/>
+                        </div>
+                        {% endif %}
+                        {% if post.video %}
+                            <video class="embed-responsive embed-responsive-16by9" controls="controls" height="300" width="275" style="padding-bottom: 15px !important;">
+                                <source src="{{post.video.url}}" type="video/mp4" />
+                            </video>
+                        {% endif %}
+                    {% endif %}
+                  
+
+                    <a href="{% url 'post-detail' post.pk %}" class="postauthor">Comments:{{ comment.count }}</a>
+                    <div class="d-flex flex-row ">
+                        <form method="POST" action="{% url 'like' post.id %}" class="like-form" id="{{post.id}}">
+                            {% csrf_token %}
+                            {% if user not in post.likes.all %}
+                                <input type="hidden"  name="post_id" value="{{ post.id }}">
+                                <button class="remove-default-btn thumbs-btn like-btn{{post.id}}" type="submit">
+                                    <i class="fa fa-thumbs-up thumbs like-icon{{post.id}}" ><span class="like_count{{post.id}}">{{ post.likes.all.count }}</span></i>
+                                </button>
+                            {% else %}
+                                <input type="hidden" name="post_id" value="{{ post.id }}">
+                                <button class="remove-default-btn thumbs-btn thumbs-fillgreen like-btn{{post.id}}" type="submit">
+                                    <i class="fa fa-thumbs-up thumbs like-icon{{post.id}}"><span class="like_count{{post.id}}">{{ post.likes.all.count }}</span></i>
+                                </button>
+                            {% endif %}
+                        </form>
+                        
+                        <form method="POST" action="{% url 'dislike' post.id %}" class="dislike-form thumb-buttons" id='{{post.id}}'>
+                            {% csrf_token %}
+                            {% if user not in post.dislikes.all %}
+                                <input type="hidden" name="post_id" value="{{ post.id }}">
+                                <button class="remove-default-btn thumbs-btn dislike-btn{{post.id}}" type="submit" >
+                                    <i class="fa fa-thumbs-down thumbs dislike-icon{{post.id}}" > <span class="dislike_count{{post.id}}">{{ post.dislikes.all.count }}</span></i>
+                                </button>
+                            {% else %}
+                                <input type="hidden" name="post_id" value="{{ post.id }}">
+                                <button class="remove-default-btn thumbs-btn thumbs-fillred dislike-btn{{post.id}}" type="submit" >
+                                    <i class="fa fa-thumbs-down thumbs dislike-icon{{post.id}}" > <span class="dislike_count{{post.id}}">{{ post.dislikes.all.count }}</span></i>
+                                </button>
+                            {% endif %}
+                        </form>
+
+                        <form method="POST" action="{% url 'share-post' post.pk %}" class="nopadding" id="{{ post.pk }}" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ shareform | crispy }}
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-success mt-3">Share</button>
+                            </div>
+                        </form>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+                    {% comment %} <h4>Jhon Doe</h4>
+                    <span>- 20 October, 2018</span>
+                    <br>
+                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero sequi velit molestias doloremque molestiae dicta?</p> {% endcomment %}
+                </div>
+            {% endfor %}
+            {% comment %} <div class="text-justify darker mt-4 float-right">
+                <img src="https://i.imgur.com/CFpa3nK.jpg" alt="" class="rounded-circle" width="40" height="40">
+                <h4>Rob Simpson</h4>
+                <span>- 20 October, 2018</span>
+                <br>
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero sequi velit molestias doloremque molestiae dicta?</p>
+            </div>
+            <div class="comment mt-4 text-justify">
+                <img src="https://i.imgur.com/yTFUilP.jpg" alt="" class="rounded-circle" width="40" height="40">
+                <h4>Jhon Doe</h4>
+                <span>- 20 October, 2018</span>
+                <br>
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero sequi velit molestias doloremque molestiae dicta?</p>
+            </div>
+            <div class="darker mt-4 text-justify">
+                <img src="https://i.imgur.com/CFpa3nK.jpg" alt="" class="rounded-circle" width="40" height="40">
+                <h4>Rob Simpson</h4>
+                <span>- 20 October, 2018</span>
+                <br>
+                <p >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero sequi velit molestias doloremque molestiae dicta?</p>
+            </div> {% endcomment %}
+        </div>
+    </div>
+    <div class="row justify-content-center mt-3 page">
+        <div class="col-md-5 col-sm-12 position-relative">
+            <p style="color: white !important">Page {{ posts.number }} of {{ posts.paginator.num_pages }}</p>
+          
+            {% if posts.has_previous %}
+            <a href="?page=1">&laquo First</a>
+            <a href="?page={{ posts.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            {% if posts.has_next %}
+            <a href="?page={{ posts.next_page_number }}">Next</a>
+            <a href="?page={{ posts.paginator.num_pages }}">Last &raquo</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="container">
+    <div class="row">
+        <div class=" col-xs-12 col-xs-offset-0 text-center fh5co-table">
+            <div class="fh5co-intro fh5co-table-cell-copy animate-box ">
+                <div class="col-sm-5 col-md-6 col-12">
+                    <h1>Comments</h1>
+                    <div class="comment mt-4 text-justify float-left">
+                        <img src="https://i.imgur.com/yTFUilP.jpg" alt="" class="rounded-circle" width="40" height="40">
+                        <h4>Jhon Doe</h4>
+                        <span>- 20 October, 2018</span>
+                        <br>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero sequi velit molestias doloremque molestiae dicta?</p>
+                    </div>
+                    <div class="text-justify darker mt-4 float-right">
+                        <img src="https://i.imgur.com/CFpa3nK.jpg" alt="" class="rounded-circle" width="40" height="40">
+                        <h4>Rob Simpson</h4>
+                        <span>- 20 October, 2018</span>
+                        <br>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero sequi velit molestias doloremque molestiae dicta?</p>
+                    </div>
+                    <div class="comment mt-4 text-justify">
+                        <img src="https://i.imgur.com/yTFUilP.jpg" alt="" class="rounded-circle" width="40" height="40">
+                        <h4>Jhon Doe</h4>
+                        <span>- 20 October, 2018</span>
+                        <br>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero sequi velit molestias doloremque molestiae dicta?</p>
+                    </div>
+                    <div class="darker mt-4 text-justify">
+                        <img src="https://i.imgur.com/CFpa3nK.jpg" alt="" class="rounded-circle" width="40" height="40">
+                        <h4>Rob Simpson</h4>
+                        <span>- 20 October, 2018</span>
+                        <br>
+                        <p >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero sequi velit molestias doloremque molestiae dicta?</p>
+                    </div>
+                    <div class="comment mt-4 text-justify float-left">
+                        <img src="https://i.imgur.com/yTFUilP.jpg" alt="" class="rounded-circle" width="40" height="40">
+                        <h4>Jhon Doe</h4>
+                        <span>- 20 October, 2018</span>
+                        <br>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero sequi velit molestias doloremque molestiae dicta?</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-5 col-sm-4 offset-md-1 offset-sm-1 col-12 mt-4 margintop">
+                    <form id="algin-form">
+                        <div class="form-group">
+                            <h4>Leave a comment</h4>
+                            <label for="message">Message</label>
+                            <textarea name="msg" id=""msg cols="30" rows="5" class="form-control" style="background-color: black;"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" name="name" id="fullname" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="text" name="email" id="email" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <p class="text-secondary">If you have a <a href="#" class="alert-link">gravatar account</a> your address will be used to display your profile picture.</p>
+                        </div>
+                        <div class="form-inline">
+                            <input type="checkbox" name="check" id="checkbx" class="mr-1">
+                            <label for="subscribe">Subscribe me to the newlettter</label>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" id="post" class="btn">Post Comment</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5 mb-5">
+    <div class="d-flex justify-content-center row">
+        <div class="d-flex flex-column col-md-8">
+            <div class="d-flex flex-row align-items-center text-left comment-top p-2 bg-white border-bottom px-4">
+                <div class="profile-image"><img class="rounded-circle" src="https://i.imgur.com/t9toMAQ.jpg" width="70"></div>
+                <div class="d-flex flex-column-reverse flex-grow-0 align-items-center votings ml-1"><i class="fa fa-sort-up fa-2x hit-voting"></i><span>127</span><i class="fa fa-sort-down fa-2x hit-voting"></i></div>
+                <div class="d-flex flex-column ml-3">
+                    <div class="d-flex flex-row post-title">
+                        <h5>Is sketch 3.9.1 stable?</h5><span class="ml-2">(Jesshead)</span></div>
+                    <div class="d-flex flex-row align-items-center align-content-center post-title"><span class="bdge mr-1">video</span><span class="mr-2 comments">13 comments&nbsp;</span><span class="mr-2 dot"></span><span>6 hours ago</span></div>
+                </div>
+            </div>
+            <div class="coment-bottom bg-white p-2 px-4">
+                <div class="d-flex flex-row add-comment-section mt-4 mb-4"><img class="img-fluid img-responsive rounded-circle mr-2" src="https://i.imgur.com/qdiP4DB.jpg" width="38"><input type="text" class="form-control mr-3" placeholder="Add comment"><button class="btn btn-primary" type="button">Comment</button></div>
+                <div
+                    class="commented-section mt-2">
+                    <div class="d-flex flex-row align-items-center commented-user">
+                        <h5 class="mr-2">Corey oates</h5><span class="dot mb-1"></span><span class="mb-1 ml-2">4 hours ago</span></div>
+                    <div class="comment-text-sm"><span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></div>
+                    <div
+                        class="reply-section">
+                        <div class="d-flex flex-row align-items-center voting-icons"><i class="fa fa-sort-up fa-2x mt-3 hit-voting"></i><i class="fa fa-sort-down fa-2x mb-3 hit-voting"></i><span class="ml-2">10</span><span class="dot ml-2"></span>
+                            <h6 class="ml-2 mt-1">Reply</h6>
+                        </div>
+            </div>
+        </div>
+        <div class="commented-section mt-2">
+            <div class="d-flex flex-row align-items-center commented-user">
+                <h5 class="mr-2">Samoya Johns</h5><span class="dot mb-1"></span><span class="mb-1 ml-2">5 hours ago</span></div>
+            <div class="comment-text-sm"><span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua..</span></div>
+            <div class="reply-section">
+                <div class="d-flex flex-row align-items-center voting-icons"><i class="fa fa-sort-up fa-2x mt-3 hit-voting"></i><i class="fa fa-sort-down fa-2x mb-3 hit-voting"></i><span class="ml-2">15</span><span class="dot ml-2"></span>
+                    <h6 class="ml-2 mt-1">Reply</h6>
+                </div>
+            </div>
+        </div>
+        <div class="commented-section mt-2">
+            <div class="d-flex flex-row align-items-center commented-user">
+                <h5 class="mr-2">Makhaya andrew</h5><span class="dot mb-1"></span><span class="mb-1 ml-2">10 hours ago</span></div>
+            <div class="comment-text-sm"><span>Nunc sed id semper risus in hendrerit gravida rutrum. Non odio euismod lacinia at quis risus sed. Commodo ullamcorper a lacus vestibulum sed arcu non odio euismod. Enim facilisis gravida neque convallis a. In mollis nunc sed id. Adipiscing elit pellentesque habitant morbi tristique senectus et netus. Ultrices mi tempus imperdiet nulla malesuada pellentesque.</span></div>
+            <div
+                class="reply-section">
+                <div class="d-flex flex-row align-items-center voting-icons"><i class="fa fa-sort-up fa-2x mt-3 hit-voting"></i><i class="fa fa-sort-down fa-2x mb-3 hit-voting"></i><span class="ml-2">25</span><span class="dot ml-2"></span>
+                    <h6 class="ml-2 mt-1">Reply</h6>
+                </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+<div class="fh5co-parallax" style="background-image: url(/static/images/fitnesspic2.jpg);">
+    <!-- Main Body -->
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class=" col-xs-12 col-xs-offset-0 text-center fh5co-table">
+                    <div class="fh5co-intro fh5co-table-cell-copy animate-box ">
+                        <div class="col-sm-5 col-md-6 col-12 margintop">
+                            <h1>Comments</h1>
+                            <div class="comment mt-4 text-justify float-left">
+                                <img src="https://i.imgur.com/yTFUilP.jpg" alt="" class="rounded-circle" width="40" height="40">
+                                <h4>Jhon Doe</h4>
+                                <span>- 20 October, 2018</span>
+                                <br>
+                                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero sequi velit molestias doloremque molestiae dicta?</p>
+                            </div>
+                            <div class="text-justify darker mt-4 float-right">
+                                <img src="https://i.imgur.com/CFpa3nK.jpg" alt="" class="rounded-circle" width="40" height="40">
+                                <h4>Rob Simpson</h4>
+                                <span>- 20 October, 2018</span>
+                                <br>
+                                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero sequi velit molestias doloremque molestiae dicta?</p>
+                            </div>
+                            <div class="comment mt-4 text-justify">
+                                <img src="https://i.imgur.com/yTFUilP.jpg" alt="" class="rounded-circle" width="40" height="40">
+                                <h4>Jhon Doe</h4>
+                                <span>- 20 October, 2018</span>
+                                <br>
+                                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero sequi velit molestias doloremque molestiae dicta?</p>
+                            </div>
+                            <div class="darker mt-4 text-justify">
+                                <img src="https://i.imgur.com/CFpa3nK.jpg" alt="" class="rounded-circle" width="40" height="40">
+                                <h4>Rob Simpson</h4>
+                                <span>- 20 October, 2018</span>
+                                <br>
+                                <p >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero sequi velit molestias doloremque molestiae dicta?</p>
+                            </div>
+                            <div class="comment mt-4 text-justify float-left">
+                                <img src="https://i.imgur.com/yTFUilP.jpg" alt="" class="rounded-circle" width="40" height="40">
+                                <h4>Jhon Doe</h4>
+                                <span>- 20 October, 2018</span>
+                                <br>
+                                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero sequi velit molestias doloremque molestiae dicta?</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-5 col-sm-4 offset-md-1 offset-sm-1 col-12 mt-4 margintop">
+                            <form id="algin-form">
+                                <div class="form-group">
+                                    <h4>Leave a comment</h4>
+                                    <label for="message">Message</label>
+                                    <textarea name="msg" id=""msg cols="30" rows="5" class="form-control" style="background-color: black;"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input type="text" name="name" id="fullname" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="text" name="email" id="email" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <p class="text-secondary">If you have a <a href="#" class="alert-link">gravatar account</a> your address will be used to display your profile picture.</p>
+                                </div>
+                                <div class="form-inline">
+                                    <input type="checkbox" name="check" id="checkbx" class="mr-1">
+                                    <label for="subscribe">Subscribe me to the newlettter</label>
+                                </div>
+                                <div class="form-group">
+                                    <button type="button" id="post" class="btn">Post Comment</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-5 col-md-6 col-12 margintop">
+                    <h1>Comments</h1>
+                    <div class="comment mt-4 text-justify float-left">
+                        <img src="https://i.imgur.com/yTFUilP.jpg" alt="" class="rounded-circle" width="40" height="40">
+                        <h4>Jhon Doe</h4>
+                        <span>- 20 October, 2018</span>
+                        <br>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero sequi velit molestias doloremque molestiae dicta?</p>
+                    </div>
+                    <div class="text-justify darker mt-4 float-right">
+                        <img src="https://i.imgur.com/CFpa3nK.jpg" alt="" class="rounded-circle" width="40" height="40">
+                        <h4>Rob Simpson</h4>
+                        <span>- 20 October, 2018</span>
+                        <br>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero sequi velit molestias doloremque molestiae dicta?</p>
+                    </div>
+                    <div class="comment mt-4 text-justify">
+                        <img src="https://i.imgur.com/yTFUilP.jpg" alt="" class="rounded-circle" width="40" height="40">
+                        <h4>Jhon Doe</h4>
+                        <span>- 20 October, 2018</span>
+                        <br>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero sequi velit molestias doloremque molestiae dicta?</p>
+                    </div>
+                    <div class="darker mt-4 text-justify">
+                        <img src="https://i.imgur.com/CFpa3nK.jpg" alt="" class="rounded-circle" width="40" height="40">
+                        <h4>Rob Simpson</h4>
+                        <span>- 20 October, 2018</span>
+                        <br>
+                        <p >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero sequi velit molestias doloremque molestiae dicta?</p>
+                    </div>
+                    <div class="comment mt-4 text-justify float-left">
+                        <img src="https://i.imgur.com/yTFUilP.jpg" alt="" class="rounded-circle" width="40" height="40">
+                        <h4>Jhon Doe</h4>
+                        <span>- 20 October, 2018</span>
+                        <br>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero sequi velit molestias doloremque molestiae dicta?</p>
+                    </div>
+                    <div class="text-justify darker mt-4 float-right">
+                        <img src="https://i.imgur.com/CFpa3nK.jpg" alt="" class="rounded-circle" width="40" height="40">
+                        <h4>Rob Simpson</h4>
+                        <span>- 20 October, 2018</span>
+                        <br>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero sequi velit molestias doloremque molestiae dicta?</p>
+                    </div>
+                    <div class="comment mt-4 text-justify">
+                        <img src="https://i.imgur.com/yTFUilP.jpg" alt="" class="rounded-circle" width="40" height="40">
+                        <h4>Jhon Doe</h4>
+                        <span>- 20 October, 2018</span>
+                        <br>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero sequi velit molestias doloremque molestiae dicta?</p>
+                    </div>
+                    <div class="darker mt-4 text-justify">
+                        <img src="https://i.imgur.com/CFpa3nK.jpg" alt="" class="rounded-circle" width="40" height="40">
+                        <h4>Rob Simpson</h4>
+                        <span>- 20 October, 2018</span>
+                        <br>
+                        <p >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero sequi velit molestias doloremque molestiae dicta?</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-5 col-sm-4 offset-md-1 offset-sm-1 col-12 mt-4 margintop">
+                    <form id="algin-form">
+                        <div class="form-group">
+                            <h4>Leave a comment</h4>
+                            <label for="message">Message</label>
+                            <textarea name="msg" id=""msg cols="30" rows="5" class="form-control" style="background-color: black;"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" name="name" id="fullname" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="text" name="email" id="email" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <p class="text-secondary">If you have a <a href="#" class="alert-link">gravatar account</a> your address will be used to display your profile picture.</p>
+                        </div>
+                        <div class="form-inline">
+                            <input type="checkbox" name="check" id="checkbx" class="mr-1">
+                            <label for="subscribe">Subscribe me to the newlettter</label>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" id="post" class="btn">Post Comment</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="fh5co-parallax" style="background-image: url(/static/images/fitnesspic2.jpg);">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2 col-sm-12 col-sm-offset-0 col-xs-12 col-xs-offset-0 text-center fh5co-table">
+				<div class="fh5co-intro fh5co-table-cell animate-box">
+                </div>
+			</div>
+		</div>
+	</div>
+</div><!-- end: fh5co-parallax -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1 style="display: none;">Socialpage</h1>
+    <div class="container">
+        {% if user.is_authenticated %}
+            <div class="row justify-content-center mt-3">
+                <div class="col-md-5 col-sm-12 border-bottom">
+                    <h1 class="row justify-content-center mt-3">Social Feed</h1>
+                    <h5 class="row justify-content-center mt-3">Share your Thoughts, Pictures, Videos!</h5>
+                </div>
+                <div class="row justify-content-center mt-3 mb-5"><div class="col-md-5 col-sm-12"><div class="flexbox-item-99"><div class="header-info2">
+                    
+                    <h5>Explore different <a href="{% url 'explore' %}">#</a>hashtags!</h5>
+                    <h5>Share a Post <i class="far fa-share-square share-btn"></i>!</h5>
+                    <h5>Message a User <a href="{% url 'inbox' %}" class="inbox-icon"><i class="far fa-paper-plane"></i></a>!</h5>
+                    
+                </div></div></div></div>
+            </div>
+            
+            <div class="main-post-section">
+                {% include 'social/posts.html' %}
+            </div>
+        {% else %}
+            <div class="row justify-content-center mt-3">
+                <div class="col-md-5 col-sm-12 border-bottom">
+                    <h1 class="row justify-content-center mt-3">Public Posts</h1>
+                    <h5 class="row justify-content-center mt-3">Share your Thoughts!</h5>
+                </div>
+                <div class="row justify-content-center mt-3 mb-5"><div class="col-md-5 col-sm-12"><div class="flexbox-item-99"><div class="header-info2">
+                    <h5>Explore different #hashtags!</h5>
+                    <h5>Share a Post <i class="far fa-share-square "></i>!</h5>
+                    <h5>Message a User<i class="far fa-paper-plane"></i>!</h5>
+                    <h6>Please <a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}">Register</a> to interact with Users! </h6>
+               </div></div></div></div>
+            </div>
+            <div class="infinite-container">
+                {% for post in posts %}
+                <div class="infinite-item">
+                    <div class="row justify-content-center mt-3">
+                        <div class="col-md-5 col-sm-12 border-bottom position-relative">
+                            {% if post.shared_user %}
+                                <div>
+                                    <img class="round-circle post-img" height="45" width="45" src="{{ post.shared_user.profile.picture.url }}"/>
+                                    <p class="post-text">
+                                       @{{ post.shared_user }} shared a post on {{ post.created_on }}
+                                    </p>
+                                </div>
+                            {% else %}
+                                <div>
+                                    <img class="round-circle post-img" height="45" width="45" src="{{ post.author.profile.picture.url }}" />
+                                    <p class="post-text">
+                                        @{{ post.author }} {{ post.created_on }}
+                                    </p>
+                                </div>
+                            {% endif %}
+                            {% if post.shared_body %}
+                                <div class="position-relative mb-3 body">
+                                    <p>{{ post.shared_body }}</p>
+                                </div>
+                                <div class="shared-post">
+                                    <img class="round-circle post-img" height="45" width="45" src="{{ post.author.profile.picture.url }}" />
+                                    <p class="post-text">
+                                       @{{ post.author }} {{ post.shared_on }}
+                                    </p>
+                                </div>
+                            {% endif %}
+                            <div class="shared-post position-relative pt-3">
+                                <div class="position-relative">
+                                    <div class="body">
+                                        <p>{{ post.body }}</p>
+                                    </div>
+                                    {% if post.image %}
+                                        <div class="">
+                                            <img src="{{ post.image.url }}" class="post-image"/>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div> 
+                            <div class="d-flex flex-row">    
+                                <i class="far fa-thumbs-up" style="color: white"><span>{{ post.likes.all.count }}</span></i>
+                                <i class="far fa-thumbs-down" style="color: white"> <span>{{ post.dislikes.all.count }}</span></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div class="row justify-content-center mt-3">
+            <div class="col-md-5 col-sm-12 position-relative">
+              {% if posts.has_previous %}
+                <a href="?page=1">&laquo First</a>
+                <a href="?page={{ posts.previous_page_number }}">Previous</a>
+              {% endif %}
+
+              Page {{ posts.number }} of {{ posts.paginator.num_pages }}
+
+              {% if posts.has_next %}
+                <a href="?page={{ posts.next_page_number }}">Next</a>
+                <a href="?page={{ posts.paginator.num_pages }}">Last &raquo</a>
+              {% endif %}
+            </div>
+        </div>
+       
+    </div>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <!-- AJAX for when user makes a post page doesnt refresh ... problem is when user clicks like/dislike button data returned not html page -->
+   <!--  <script type="text/javascript">
+        $(document).on('submit', '.post-form', function(event){
+            event.preventDefault();
+            console.log($(this).serialize());
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                dataType: 'json',
+                // contentType: 'multipart/form-data',
+                success: function(response) {
+                    $('.main-post-section').html(response['form']);
+                    // $('.image_video_section').html(response['form']);
+                    // $('.ajax_image').html(response['form']);
+
+                    // $('textarea').val('');
+                   
+                },
+                error: function(rs, e) {
+                    console.log(rs.responseText);
+                },
+            });
+        });
+       
+    </script> -->
+
+
+    <!-- # Ajax jQuery
+    <script type="text/javascript">
+        function upload(event) {
+            event.preventDefault();
+            var data = new FormData($('#ajax').get(0));
+            console.log(data)
+
+            $.ajax({
+                url: '/image_load/', // same url 'action' in form
+                type: 'POST',
+                data: data,
+                contentType: 'multipart/form-data',
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    alert('success');
+                }
+            });
+            return false;
+        }
+    </script> -->
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+             
+            $('.like-form').submit(function(e){
+                e.preventDefault();
+                const post_id=$(this).attr('id')
+                const likeText = $(`.like-btn${post_id}`).text()
+                const trim = $.trim(likeText)
+                const url=$(this).attr('action') 
+                let res;
+                const like = $(`.like_count${post_id}`).text()
+                $.ajax({
+                    method:"POST",
+                    url:url,
+                    data:{
+                        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+                        'post_id':post_id,
+                    },
+                    success:function(response){
+                        if(response.liked===true){
+                            $(`.like-icon${post_id}`).addClass('btn-success')
+                        }else{
+                            $(`.like-icon${post_id}`).removeClass('btn-success')
+                        }
+                        if(response.disliked===true){
+                            $(`.dislike-icon${post_id}`).addClass("btn-danger")
+                        }else{
+                            $(`.dislike-icon${post_id}`).removeClass("btn-danger")
+                        }
+                        likes=$(`.like_count${post_id}`).text(response.likes_count)
+                        parseInt(likes)
+                        dislikes=$(`.dislike_count${post_id}`).text(response.dislikes_count)
+                        parseInt(dislikes)
+                    },
+                    error:function(response){
+                        console.log("Failed ", response)
+                    }
+                })
+            });
+
+
+            $('.dislike-form').submit(function(e){
+                e.preventDefault();  
+                const post_id = $(this).attr('id')
+                const dislikeText = $(`.dislike-btn${post_id}`).text()
+                const trim = $.trim(dislikeText)
+                const url =$(this).attr('action') 
+                let res;
+                const dislike = $(`.dislike_count${post_id}`).text()
+                
+                $.ajax({
+                    method:"POST",
+                    url:url,
+                    data:{
+                        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+                        'post_id':post_id,
+                    },
+                    success:function(response){
+                        if(response.disliked===true){
+                          $(`.dislike-icon${post_id}`).addClass("btn-danger")
+                        }else{
+                          $(`.dislike-icon${post_id}`).removeClass("btn-danger")
+                        }
+
+                        if(response.liked===true){
+                          $(`.like-icon${post_id}`).addClass('btn-success')
+                        }else{
+                          $(`.like-icon${post_id}`).removeClass('btn-success')
+                        }
+                        likes=$(`.like_count${post_id}`).text(response.likes_count)
+                        parseInt(likes)
+                        dislikes=$(`.dislike_count${post_id}`).text(response.dislikes_count)
+                        parseInt(dislikes)
+                    },
+                    error:function(response){
+                        console.log('failed', response)
+                    }
+                }) 
+            });
+
+        });
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <div class="row justify-content-center mt-3 mb-5">
+                <div class="col-md-5 col-sm-12 border-bottom">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form | crispy }}
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-success mt-3">Submit!</button>
+                        </div>
+                    </form>
+                    <h6 class="row justify-content-center">Click on a Users Post to view Comments! <br> &nbsp;&nbsp;&nbsp; View, Edit, or Delete Posts in your <a class="row justify-content-center" href="{% url 'show_profile_page' request.user.profile.pk %}">Profile</a></h6></p>
+                </div>
+            </div>
+
+            <div class="row justify-content-center mt-3 mb-5"><div class="col-md-5 col-sm-12"><h4 class="row justify-content-center mt-3">Total Posts: {{ post_count }}</h4></div></div>
+           
+            <!-- <button class="fadebutton">Click to fade</button> -->
+            <div class="infinite-container ex">
+
+                {% for post in posts %}
+                <!-- <button class="fadebutton">Click to fade</button>
+                <div style="display:none" id="ex" class="ex">
+                    <h1>Hey</h1>
+                    <p>yo</p>
+                </div> -->
+                    <div class="infinite-item">
+                        <div class="row justify-content-center mt-3">
+                            <div class="col-md-5 col-sm-12 border-bottom position-relative">
+                                {% if post.shared_user %}
+                                    <div>
+                                        <a href="{% url 'show_profile_page' post.shared_user.profile.pk %}">
+                                            <img class="round-circle post-img" height="45" width="45" src="{{ post.shared_user.profile.picture.url }}"/>
+                                        </a>
+                                        <p class="post-text">
+                                            <a class="text-primary post-link" href="{% url 'show_profile_page' post.shared_user.profile.pk %}">@{{ post.shared_user }}</a> shared a post on {{ post.created_on }}
+                                        </p>
+                                    </div>
+                                {% else %}
+                                    <div>
+                                        <a href="{% url 'show_profile_page' post.author.profile.pk %}">
+                                            <img class="round-circle post-img" height="45" width="45" src="{{ post.author.profile.picture.url }}" />
+                                        </a>
+                                        <p class="post-text">
+                                            <a class="text-primary post-link" href="{% url 'show_profile_page' post.author.profile.pk %}">@{{ post.author }}</a> {{ post.created_on }}
+                                            <span onclick="shareToggle('{{ post.pk }}')"><i class="far fa-share-square share-btn"></i></span>
+                                        </p>
+                                    </div>
+                                {% endif %}
+                                <form method="POST" action="{% url 'share-post' post.pk %}" class="d-none" id="{{ post.pk }}" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    {{ shareform | crispy }}
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-success mt-3">share the post</button>
+                                    </div>
+                                </form>
+                                {% if post.shared_body %}
+                                    <div class="position-relative mb-3 body">
+                                        <p>{{ post.shared_body }}</p>
+                                        <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
+                                    </div>
+                                    
+                                    <div class="shared-post">
+                                        <a href="{% url 'show_profile_page' post.author.profile.pk %}">
+                                            <img class="round-circle post-img" height="45" width="45" src="{{ post.author.profile.picture.url }}" />
+                                        </a>
+                                        <p class="post-text">
+                                            <a class="text-primary post-link" href="{% url 'show_profile_page' post.author.profile.pk %}">@{{ post.author }}</a> {{ post.shared_on }}
+                                        </p>
+                                    </div>
+                                {% endif %}
+
+                                <div class="shared-post position-relative pt-3">
+                                    <div class="position-relative">
+                                        <div class="body">
+                                            <p>{{ post.body }}</p>
+                                        </div>
+                                        {% if post.image %}
+                                            <div class="">
+                                                <img src="{{ post.image.url }}" class="post-image"/>
+                                            </div>
+                                        {% endif %}
+                                        <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
+                                    </div>
+                                </div> 
+
+                                <div class="d-flex flex-row">
+                                    <form method="POST" action="{% url 'like' post.id %}" class="like-form" id="{{post.id}}">
+                                        {% csrf_token %}
+                                        {% if user not in post.likes.all %}
+                                            <input type="hidden"  name="post_id" value="{{ post.id }}">
+                                            <button class="remove-default-btn like-btn{{post.id}}" type="submit">
+                                                <i class="far fa-thumbs-up like-icon{{post.id}}"  style="color: white"><span class="like_count{{post.id}}">{{ post.likes.all.count }}</span></i>
+                                            </button>
+                                        {% else %}
+                                            <input type="hidden" name="post_id" value="{{ post.id }}">
+                                            <button class="remove-default-btn like-btn{{post.id}}" type="submit">
+                                                <i class="far fa-thumbs-up like-icon{{post.id}} btn-success"  style="color: white"><span class="like_count{{post.id}}">{{ post.likes.all.count }}</span></i>
+                                            </button>
+                                        {% endif %}
+                                    </form>
+                                    
+                                    <form method="POST" action="{% url 'dislike' post.id %}" class="dislike-form" id='{{post.id}}'>
+                                        {% csrf_token %}
+                                        {% if user not in post.dislikes.all %}
+                                            <input type="hidden" name="post_id" value="{{ post.id }}">
+                                            <button class="remove-default-btn dislike-btn{{post.id}}" type="submit" >
+                                                <i class="far fa-thumbs-down dislike-icon{{post.id}}"  style="color: white"> <span class="dislike_count{{post.id}}">{{ post.dislikes.all.count }}</span></i>
+                                            </button>
+                                        {% else %}
+                                            <input type="hidden" name="post_id" value="{{ post.id }}">
+                                            <button class="remove-default-btn dislike-btn{{post.id}}" type="submit" >
+                                                <i class="far fa-thumbs-down dislike-icon{{post.id}} btn-success"  style="color: white"> <span class="dislike_count{{post.id}}">{{ post.dislikes.all.count }}</span></i>
+                                            </button>
+                                        {% endif %}
+                                    </form>
+
+                                    <p>Comments: {{ comment.count }}</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+
+ <div class="row justify-content-center mt-3 mb-5">
+            <div class="col-md-5 col-sm-12">
+                {% if posts.has_next %}
+                    <a class="infinite-more-link" href="?page={{ posts.next_page_number }}"></a>
+                {% endif %}
+            </div>
+        </div>
+        {% if posts.has_next %}
+            <div class="d-flex justify-content-center" style="display:none;">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        {% else %}
+        {% endif %}
+
+  <form action="{% url 'like-post-view' %}" method="POST" class='liked-form' id='{{post.id}}'>
+                                        {% csrf_token %}
+                                        <input type="hidden" name="post_id" value={{post.id}}>
+                                        
+                                            <button type="submit" class="ui button liked-btn{{post.id}}">
+                                                {% if user not in post.liked.all %}
+                                                    Like
+                                                {% else %}
+                                                    Unlike
+                                                {% endif %}
+                                            </button>
+                                            <div class="ui grid">
+                                                <div class="column">
+                                                    <div class="liked-count{{post.id}}"> {{post.num_liked}} </div>
+                                                </div>
+                                                <div class="column">
+                                                    likes
+                                                </div>
+                                            </div>
+                                    </form>
+
+
+    $('.liked-form').submit(function(e){
+                e.preventDefault()
+                
+                const post_id = $(this).attr('id')
+                
+                const likeText = $(`.liked-btn${post_id}`).text()
+                const trim = $.trim(likeText)
+
+                const url = $(this).attr('action')
+                
+                let res;
+                const liked = $(`.liked-count${post_id}`).text()
+                const trimCount = parseInt(liked)
+                
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: {
+                        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+                        'post_id':post_id,
+                    },
+                    success: function(response) {
+                        if(trim === 'Unlike') {
+                            $(`.liked-btn${post_id}`).text('Like')
+                            // $(`.liked-btn${post_id}`).addClass("btn-success")
+
+                            res = trimCount - 1
+                        } else {
+                            $(`.liked-btn${post_id}`).text('Unlike')
+                            // $(`.liked-btn${post_id}`).removeClass('btn-success')
+
+                            res = trimCount + 1
+                        }
+
+                        $(`.liked-count${post_id}`).text(res)
+                    },
+                    error: function(response) {
+                        console.log('error', response)
+                    }
+                })
+
+            });
+
+
+ <div class="d-flex flex-row">
+                                    <!-- <form method="POST" action="{ url 'like' post.id %}" class="like-form" id="{{post.id}}"> -->
+                                    <form method="POST" action="{% url 'like' post.id %}" class="like-form">
+
+                                        {% csrf_token %}
+                                        {% if user not in post.likes.all %}
+                                            <input type="hidden"  name="post_id" value="{{ post.id }}">
+                                            <!-- <button class="remove-default-btn like-btn{{post.id}}" type="submit"> -->
+                                            <button class="remove-default-btn like-btn" type="submit" name="post_id" value="{{ post.id }}">
+                                                <i class="far fa-thumbs-up like-icon"  style="color: white"><span id="like_count">{{ post.likes.all.count }}</span></i>
+                                            </button>
+                                        {% else %}
+                                            <input type="hidden" name="post_id" value="{{ post.id }}">
+                                            <!-- <button class="remove-default-btn like-btn{{post.id}}" type="submit"> -->
+                                            <button class="remove-default-btn like-btn" type="submit" name="post_id" value="{{ post.id }}" >
+                                                <i class="far fa-thumbs-up like-icon btn-success"  style="color: white"><span id="like_count">{{ post.likes.all.count }}</span></i>
+                                            </button>
+                                        {% endif %}
+                                    </form>
+                                    <!-- <form method="POST" action="{ url 'dislike' post.id %}" class="dislike-form" id="{{post.id}}"> -->
+                                    <form method="POST" action="{% url 'dislike' post.id %}" class="dislike-form" id='{{post.id}}'>
+
+                                        {% csrf_token %}
+                                        {% if user not in post.dislikes.all %}
+                                            <input type="hidden" name="post_id" value="{{ post.id }}">
+                                            <!-- <button class="remove-default-btn dislike-btn{{post.id}}" type="submit" > -->
+                                            <button class="remove-default-btn dislike-btn" type="submit" name="post_id" value="{{post.id}}">
+
+                                                <i class="far fa-thumbs-down dislike-icon"  style="color: white"> <span id="dislike_count">{{ post.dislikes.all.count }}</span></i>
+                                            </button>
+                                        {% else %}
+                                            <input type="hidden" name="post_id" value="{{ post.id }}">
+                                            <!-- <button class="remove-default-btn dislike-btn{{post.id}}" type="submit" > -->
+                                            <button class="remove-default-btn dislike-btn" type="submit"  name="post_id" value="{{ post.id }}">
+
+                                                <i class="far fa-thumbs-down dislike-icon btn-success"  style="color: white"> <span id="dislike_count">{{ post.dislikes.all.count }}</span></i>
+                                            </button>
+                                        {% endif %}
+                                    </form>
+
+
+  <form action="{% url 'like-post-view' %}" method="POST" class='liked-form' id='{{post.id}}'>
+                                        {% csrf_token %}
+                                    
+                                        {% if user not in post.liked.all %}
+                                            <input type="hidden" name="post_id" value={{post.id}}>
+                                            <button type="submit" class="ui button liked-btn{{post.id}}">
+                                                <i class="far fa-thumbs-up"><span class="liked-count{{post.id}}">{{post.num_liked}}</span></i>
+                                            </button>
+                                        {% else %}
+                                            <input type="hidden" name="post_id" value={{post.id}}>
+                                            <button type="submit" class="ui button liked-btn{{post.id}} btn-success">
+                                                <i class="far fa-thumbs-up"><span class="liked-count{{post.id}}">{{post.num_liked}}</span></i>
+                                            </button>
+                                        {% endif %}
+                                           
+                                         <!--    <div class="ui grid">
+                                                <div class="column">
+                                                    <div class="liked-count{{post.id}}"> {{post.num_liked}} </div>
+                                                </div>
+                                                <div class="column">
+                                                    likes
+                                                </div>
+                                            </div> -->
+                                    </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     <form action="{% url 'like-post-view' %}" method="POST" class='liked-form' id='{{post.id}}'>
+                                        {% csrf_token %}
+                                        <input type="hidden" name="post_id" value={{post.id}}>
+                                        
+                                            <button type="submit" class="ui button liked-btn{{post.id}}">
+                                                {% if user not in post.liked.all %}
+                                                    Like
+                                                {% else %}
+                                                    Unlike
+                                                {% endif %}
+                                            </button>
+                                            <div class="ui grid">
+                                                <div class="column">
+                                                    <div class="liked-count{{post.id}}"> {{post.num_liked}} </div>
+                                                </div>
+                                                <div class="column">
+                                                    likes
+                                                </div>
+                                            </div>
+                                    </form>
+
+
+
+ <div class="d-flex flex-row">
+                                    <form method="POST" action="{% url 'like' post.pk %}">
+                                        {% csrf_token %}
+                                        {% if user not in post.likes.all %}
+                                            <input type="hidden" name="next" value="{{ request.path }}">
+                                            <button class="remove-default-btn" type="submit">
+                                                <i class="far fa-thumbs-up" style="color: white"><span>{{ post.likes.all.count }}</span></i>
+                                            </button>
+                                        {% else %}
+                                            <input type="hidden" name="next" value="{{ request.path }}">
+                                            <button class="remove-default-btn" type="submit">
+                                                <i class="far fa-thumbs-up" style="color: green"><span>{{ post.likes.all.count }}</span></i>
+                                            </button>
+                                        {% endif %}
+                                    </form>
+                                    <form method="POST" action="{% url 'dislike' post.pk %}">
+                                        {% csrf_token %}
+                                        {% if user not in post.dislikes.all %}
+                                            <input type="hidden" name="next" value="{{ request.path }}">
+                                            <button class="remove-default-btn" type="submit">
+                                                <i class="far fa-thumbs-down" style="color: white"> <span>{{ post.dislikes.all.count }}</span></i>
+                                            </button>
+                                        {% else %}
+                                            <input type="hidden" name="next" value="{{ request.path }}">
+                                            <button class="remove-default-btn" type="submit">
+                                                <i class="far fa-thumbs-down" style="color: green"> <span>{{ post.dislikes.all.count }}</span></i>
+                                            </button>
+                                        {% endif %}
+                                    </form>
+                                    <p>Comments: {{ comment.count }}</p>
+                                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

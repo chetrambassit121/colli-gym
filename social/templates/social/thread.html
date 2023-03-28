@@ -1,0 +1,185 @@
+{% extends 'basetwo.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="fh5co-parallax largerbanner" style="background-image: url(/static/images/fitnesspic2.jpg);">
+    {% comment %} <div class="container">    {% endcomment %}
+        {% comment %} <div class="row"> {% endcomment %}
+			{% comment %} <div class="col-md-8 col-md-offset-2 col-sm-12 col-sm-offset-0 col-xs-12 col-xs-offset-0 text-center fh5co-table"> {% endcomment %}
+            {% comment %} <div class="fh5co-intro fh5co-table-cell animate-box"> {% endcomment %}
+    <section class="content-item" id="comments">
+        <div class="container">   
+
+            <div class="col-sm-8 col-md-offset-2 ">   
+    			<a href="{% url 'inbox' %}" class="btn btn-light" style="margin-bottom: 5px;">Back to Your Inbox</a>
+                
+                {% include 'social/thread_messages.html' %}
+                {% if message_list.has_next %}
+                    <a class="infinite-more-link" href="page={{ message_list.next_page_number }}"></a>
+                {% endif %}
+            </div>
+            {% comment %} <div class="row justify-content-center mt-3 mb-5">
+                <div class="col-md-5 col-sm-12">
+                    {% if message_list.has_next %}
+                        <a class="infinite-more-link" href="?page={{ message_list.next_page_number }}"></a>
+                    {% endif %}
+                </div>
+            </div> {% endcomment %}
+            {% if message_list %}
+                <div class="d-flex justify-content-center" style="display:none;">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            {% else %}
+                
+            {% endif %} 
+        </div>
+        <div class="row justify-content-center mt-3 page ">
+            <div class="col-md-5 col-sm-12 position-relative">
+                <p style="color: white !important">Page {{ message_list.number }} of {{ message_list.paginator.num_pages }}</p>
+                
+                {% if message_list.has_previous %}
+                <div class="d-flex flex-row">
+                <p><a href="?page=1">&laquo First</a></p>&nbsp;&nbsp;&nbsp;&nbsp;
+                <p><a href="?page={{ message_list.previous_page_number }}">Previous</a></p>
+                </div>
+                {% endif %}
+        
+                {% if message_list.has_next %}
+                <div class="d-flex flex-row">
+                <p><a href="?page={{ message_list.next_page_number }}">Next</a></p> &nbsp;&nbsp;&nbsp;&nbsp;
+                <p><a href="?page={{ message_list.paginator.num_pages }}">Last &raquo</a></p>
+                {% endif %}
+                </div>
+            </div>
+        </div> 
+        
+      
+    </section>
+</div>
+
+
+
+
+
+
+
+
+
+
+<script src="/static/js/jquery.waypoints.min.js"></script>
+{% comment %} <script src="/static/js/jquery.waypoints.min.js"></script> {% endcomment %}
+<script src="/static/js/infinite.min.js"></script>
+    <script>
+        
+        var infinite = new Waypoint.Infinite({
+            element: $('.infinite-container')[0],
+
+            offset: 'bottom-in-view',
+
+            onBeforePageLoad: function () {
+                $('.loading').show();
+            },
+            onAfterPageLoad: function () {
+                $('.loading').hide();
+            }
+
+        });
+        
+    </script>
+
+
+	
+	{% comment %} <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+        $(document).on('submit', '.thread-form', function(event){
+            event.preventDefault();
+            console.log($(this).serialize());
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function(response) {
+                    $('.thread-list').html(response['form']);
+                    $('textarea').val('');
+                   
+                },
+                error: function(rs, e) {
+                    console.log(rs.responseText);
+                },
+            });
+        });
+    </script> {% endcomment %}
+
+{% endblock %}
+
+
+<div class="row justify-content-center mt-3 page ">
+    <div class="col-md-5 col-sm-12 position-relative">
+        <p style="color: white !important">Page {{ message_list.number }} of {{ message_list.paginator.num_pages }}</p>
+        
+        {% if message_list.has_previous %}
+        <div class="d-flex flex-row">
+        <p><a href="?page=1">&laquo First</a></p>&nbsp;&nbsp;&nbsp;&nbsp;
+        <p><a href="?page={{ message_list.previous_page_number }}">Previous</a></p>
+        </div>
+        {% endif %}
+
+        {% if message_list.has_next %}
+        <div class="d-flex flex-row">
+        <p><a href="?page={{ message_list.next_page_number }}">Next</a></p> &nbsp;&nbsp;&nbsp;&nbsp;
+        <p><a href="?page={{ message_list.paginator.num_pages }}">Last &raquo</a></p>
+        {% endif %}
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row justify-content-center mt-3 mb-5">
+    <div class="col-md-5 col-sm-12">
+        {% if message_list.has_next %}
+            <a class="infinite-more-link" href="?page={{ message_list.next_page_number }}"></a>
+        {% endif %}
+    </div>
+</div>
+{% if message_list %}
+    <div class="d-flex justify-content-center" style="display:none;">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+{% else %}
+    
+{% endif %} 
+
+
+
+
+
+
+
+
+
+
+<div class="thread-list">
+    {% include 'social/thread_messages.html' %}		
+</div>
+<div class="row justify-content-center mt-3 mb-5">
+    <div class="col-md-5 col-sm-12">
+        {% if message_list.has_next %}
+            <a class="infinite-more-link" href="?page={{ message_list.next_page_number }}"></a>
+        {% endif %}
+    </div>
+</div>
+{% if message_list %}
+    <div class="d-flex justify-content-center" style="display:none;">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+{% else %}
+    
+{% endif %}

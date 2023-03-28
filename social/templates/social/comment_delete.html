@@ -1,0 +1,50 @@
+{% extends 'basetwo.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+
+
+<div class="fh5co-parallax largerbanner" style="background-image: url(/static/images/fitnesspic2.jpg);">
+    {% comment %} <div class="container">    {% endcomment %}
+        {% comment %} <div class="row"> {% endcomment %}
+			{% comment %} <div class="col-md-8 col-md-offset-2 col-sm-12 col-sm-offset-0 col-xs-12 col-xs-offset-0 text-center fh5co-table"> {% endcomment %}
+            {% comment %} <div class="fh5co-intro fh5co-table-cell animate-box"> {% endcomment %}
+    <section class="content-item" id="comments">
+        <div class="container">   
+        <div class="col-sm-8 col-md-offset-2">   
+            <h5>Are You Sure?</h5>
+            <p>You are about to delete this comment, this cannot be undone.</p>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+        </div>
+        </div>
+    </section>
+</div>
+
+
+
+{% endblock content %}
+
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-3 col-sm-6">
+            <a href="{% url 'post-detail' object.post.pk %}" class="btn btn-light">Back to Posts</a>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-5 col-sm-12">
+        <h5>Are You Sure?</h5>
+        <p>You are about to delete this comment, this cannot be undone.</p>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </div>
+        </form>
+    </div>
+    </div>
+</div>

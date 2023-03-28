@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Documentation FreeHTML5.co Template</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/icomoon.css" rel="stylesheet">
+    <link href="css/bootstrap-toc.min.css" rel="stylesheet">
+    <link href="css/prism.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+      <script src="js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-9 col-md-push-3" id="intro">
+          <p>
+          <a href="http://freehtml5.co/" class="no-border"><img src="images/logo.png" alt="FreeHTML5.co Official Logo"></a>
+          </p>
+          <p class="lead">Thank you for registering premium membership. Use this documentation to setup contact form, changing style of the template and setup mailchimp subscription or newsletter form.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-3">
+          <nav id="toc" data-spy="affix" data-toggle="toc"></nav>
+        </div>
+        <div class="col-sm-9" id="doc-content">
+
+          <div class="row">
+            <div class="col-md-12">
+          
+          <h2 id="setup-contact-form">Setup Contact Form</h2>
+          <h3>Change Email Recepient</h3>
+          <p>To make the contact form work, you need to go to <em>"php"</em> folder and then open <em>"sendEmail.php" </em> file. Next step, is to change the highlighted code below.</p>
+<pre data-line="3"><code class="language-php">&lt;?php
+// Replace this with your own email address
+$to = 'joefrey.mahusay@gmail.com';
+?&gt;
+</code></pre>
+
+        <h3>Change Subject of the Email</h3>
+        <p>Change the subject of the email same as the code below.</p>
+
+<pre data-line="2"><code class="language-php">&lt;?php
+if ($subject == '') { $subject = "Contact Form Submission"; }
+?&gt;
+</code></pre>
+
+
+          <h2 id="setup-mailchimp">Setup Mailchimp</h2>
+          <p>Open <em>"main.js"</em> or <em>"custom.js"</em> file and locate the code same as below.</p>
+<pre data-line="9"><code class="language-js">// Mailchimp Subscription
+/* 
+Notes:
+=====
+To get the mailchimp JSONP url (undocumented), change 'post?' to 'post-json?' and add '&c=?' to the end.
+For e.g. 'http://blahblah.us1.list-manage.com/subscribe/post-json?u=5afsdhfuhdsiufdba6f8802&id=4djhfdsh99f&c=?',
+*/
+$('#mc-form').ajaxChimp({
+  url: '//freehtml5.us15.list-manage.com/subscribe/post?u=88f804e614b4b7b925ef1b66d&amp;id=62ecc8f57e'
+});
+</code></pre>
+          <p>In order to get the <em>url</em> value, you need to go to <a href="http://mailchimp.com" target="_blank">mailchimp.com</a> and create an account or if you have an account already you can login there. Then, Go to <em>"List"</em> if you have no list yet, click <em>"Create List"</em> or if you have list already you can select one of those, then click <em>"Signup forms"</em> and select <em>"Embedded forms"</em> tab. After you have followed those steps you should see similar image below. Copy the highlighted code then paste it on the <em>"url"</em>.</p>
+          <p><a href="images/mailchimp_1.jpg"><img src="images/mailchimp_1.jpg" class="img-responsive" alt="Mailchimp figure"></a></p>
+
+          <h2 id="how-to-change-style">How To Change Style</h2>
+          <p>You can change the style by adding a <em>"style-1.css"</em> or style-{number} up to 7. Note {number} can be upto 7 depends upon the style feature of the template. </p>
+<pre data-line="4"><code class="language-html">&lt;link rel="stylesheet" href="css/style.css"&gt;
+
+/* example code. */
+&lt;link rel="stylesheet" href="css/style-1.css"&gt;
+</code></pre>   
+          <h2 id="cntact-us">Bootstrap Documentation</h2>
+          <p>Since this template is created using bootstrap, you can use their documentation to fully customize the template using their pre-built html elements and codes. Please visit their official website <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>.</p>
+          <h2 id="cntact-us">Contact Us</h2>
+          <p>You can simply contact us for any question, clarification regarding the template at <a href="mailto:business@freehtml5.co" target="_blank">business@freehtml5.co</a> or on my gmail account <a href="mailto:joefrey.mahusay@gmail.com" target="_blank">joefrey.mahusay@gmail.com</a>. Please specify your registered email the one you used on premium membership since we prioritize the premium members only.</p>
+
+          <p>Once again, thank you! <br> FreeHTML5.co Team &nbsp;&nbsp;  :-)</p>
+
+            </div> <!-- .col-md-12 -->
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  
+
+  <script src="dist/scripts.js"></script>
+  </body>
+</html>
