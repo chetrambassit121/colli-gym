@@ -143,7 +143,7 @@
                         <div class="media-body sharedpostbody">
                             {% comment %} {% if post.body %} {% endcomment %}
                             
-                            <h4 class="media-heading">{{ post.author }}</h4>
+                            <h4 class="media-heading">{{ post.author }} created a post <i class="fa fa-calendar"></i>{{post.shared_on}}</h4>
                             <p class="white">{{ post.body }}</p>
                             {% if post.image %}
                                 <div class="ajax_image" style="">
@@ -156,12 +156,12 @@
                                 </video>
                             {% endif %}
                             {% comment %} <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> {% endcomment %}
-                            <ul class="list-unstyled list-inline media-detail pull-left">
-                                <li><i class="fa fa-calendar"></i>{{post.shared_on}}</li>
+                            {% comment %} <ul class="list-unstyled list-inline media-detail pull-left"> {% endcomment %}
+                                {% comment %} <li><i class="fa fa-calendar"></i>{{post.shared_on}}</li> {% endcomment %}
                                 {% comment %} <li><i class="fa fa-thumbs-up"></i>13</li> {% endcomment %}
-                            </ul>
-                            <ul class="list-unstyled list-inline media-detail pull-right">
-                            </ul>
+                            {% comment %} </ul> {% endcomment %}
+                            {% comment %} <ul class="list-unstyled list-inline media-detail pull-right">
+                            </ul> {% endcomment %}
                             {% comment %} {% endif %} {% endcomment %}
                         </div>
                     </div>
