@@ -28,5 +28,7 @@ ALLOWED_HOSTS = ["coliseum-gym.herokuapp.com"]
 # MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
 
 
+
+
 '''required for django heroku'''
 django_on_heroku.settings(locals()) 
