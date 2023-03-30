@@ -1,0 +1,23 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Cronofy//Cronofy 0.1//EN
+CALSCALE:GREGORIAN
+METHOD:REQUEST
+BEGIN:VEVENT
+DTSTAMP:20230303T154434Z
+UID:640215e2291e25012dd8a1d7+1dd79c5dc956dd4045ae@invite.cronofy.com
+DTSTART:20230313T183000Z
+DTEND:20230313T190000Z
+DESCRIPTION:Hello Chetram Bassit\,<br /><br />Here are the details of the i
+ nterview:<br />Interview for Developer <br />Date: Monday\, March 13\, 202
+ 3 1:30 PM CT to Monday\, March 13\, 2023 2:00 PM CT<br />Location:  
+LAST-MODIFIED:20230303T154400Z
+ORGANIZER;CN=ClearCompany:mailto:organizer@invite.cronofy.com
+SEQUENCE:1
+STATUS:CONFIRMED
+SUMMARY:Interview for Developer 
+TRANSP:OPAQUE
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;X-NUM
+ -GUESTS=0;RSVP=TRUE:mailto:chetrambassit121@gmail.com
+END:VEVENT
+END:VCALENDAR
