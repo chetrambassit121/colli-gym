@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os  
 from pathlib import Path
 import dj_database_url  
-# import django_on_heroku  
+import django_on_heroku  
 from decouple import (
     config,
 )  
