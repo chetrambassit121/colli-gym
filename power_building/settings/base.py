@@ -53,18 +53,19 @@ INSTALLED_APPS = [
     "members",
     "social",
     # third party 
+        
+    #aws
+    'storages',
     "django_extensions",
     'infscroll',
     "crispy_forms",  
     "ckeditor",  
     "ckeditor_uploader",  
     "rest_framework",
-    "whitenoise.runserver_nostatic",
+    # "whitenoise.runserver_nostatic",
     "debug_toolbar",
     
-    
-    #aws
-    'storages',
+
     
 ]
 
