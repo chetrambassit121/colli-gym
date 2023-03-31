@@ -5,7 +5,7 @@ import django_on_heroku
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["coliseum-gym.herokuapp.com", "coliseum-gym.herokuapp.com/admin"]
 
