@@ -7,7 +7,7 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["coliseum-gym.herokuapp.com"]
+ALLOWED_HOSTS = ["coliseum-gym.herokuapp.com", "coliseum-gym.herokuapp.com/admin"]
 
 AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")
